@@ -109,7 +109,9 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
     }
     
     if (progress->identifier) {
-        
+        time_t crtime = time(NULL);
+        int d,dt,ds;
+                
         if (event == MULTIPART_EVENT_FILE_START) {
             multipart_event_file_start *e_data;
             
@@ -139,9 +141,6 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             return 0;
             
         }
-        
-        time_t crtime = time(NULL);
-        int d,dt,ds;
         
         if (progress->time_last > crtime) { /* just in case we encounter a fracture in time */
             progress->time_start = progress->time_last = crtime;
@@ -278,7 +277,7 @@ PHP_FUNCTION(uploadprogress_get_info)
         return;
     }
     
-    return uploadprogress_file_php_get_info( id, return_value );
+    uploadprogress_file_php_get_info( id, return_value );
     
     RETURN_FALSE;
 }
