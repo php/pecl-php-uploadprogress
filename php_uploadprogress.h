@@ -1,0 +1,91 @@
+/*
+   +----------------------------------------------------------------------+
+   | unknown license:                                                      |
+   +----------------------------------------------------------------------+
+   +----------------------------------------------------------------------+
+*/
+
+/* $ Id: $ */ 
+
+#ifndef PHP_UPLOADPROGRESS_H
+#define PHP_UPLOADPROGRESS_H
+
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include <php.h>
+
+#ifdef HAVE_UPLOADPROGRESS
+
+#include <php_ini.h>
+#include <SAPI.h>
+#include <ext/standard/info.h>
+
+#ifdef  __cplusplus
+} // extern "C" 
+#endif
+#ifdef  __cplusplus
+extern "C" {
+#endif
+
+extern zend_module_entry uploadprogress_module_entry;
+#define phpext_uploadprogress_ptr &uploadprogress_module_entry
+
+#ifdef PHP_WIN32
+#define PHP_UPLOADPROGRESS_API __declspec(dllexport)
+#else
+#define PHP_UPLOADPROGRESS_API
+#endif
+
+typedef struct _uploadprogress_data {
+    char * identifier;        /* full filename, or just the identifier, depending on method */
+    char * identifier_tmp;        /* full filename, or just the identifier, depending on method */
+    time_t time_start;
+    time_t time_last;
+    unsigned int  speed_average;
+    unsigned int  speed_last;
+    unsigned long bytes_uploaded;
+    unsigned long bytes_total;
+    unsigned int  files_uploaded;
+    int  est_sec;
+} uploadprogress_data;
+
+
+static char * uploadprogress_mk_filename(char * identifier, char * template);
+
+static void uploadprogress_file_php_get_info(char *, zval * );
+
+PHP_MINIT_FUNCTION(uploadprogress);
+PHP_MSHUTDOWN_FUNCTION(uploadprogress);
+PHP_RINIT_FUNCTION(uploadprogress);
+PHP_RSHUTDOWN_FUNCTION(uploadprogress);
+PHP_MINFO_FUNCTION(uploadprogress);
+
+#ifdef ZTS
+#include "TSRM.h"
+#endif
+
+
+PHP_FUNCTION(uploadprogress_get_info);
+#ifdef  __cplusplus
+} // extern "C" 
+#endif
+
+#endif /* PHP_HAVE_UPLOADPROGRESS */
+
+#endif /* PHP_UPLOADPROGRESS_H */
+
+
+/*
+ * Local variables:
+ * tab-width: 4
+ * c-basic-offset: 4
+ * End:
+ * vim600: noet sw=4 ts=4 fdm=marker
+ * vim<600: noet sw=4 ts=4
+ */
