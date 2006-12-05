@@ -1,4 +1,4 @@
-// $ Id: $
+// $Id$
 // vim:ft=javascript
 
 ARG_ENABLE('uploadprogress' , 'The Upload Progress extension', 'no');
