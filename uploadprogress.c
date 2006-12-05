@@ -61,7 +61,7 @@ ZEND_GET_MODULE(uploadprogress)
 #endif
 
 
-extern int (*php_rfc1867_callback)(unsigned int , void *, void ** TSRMLS_DC);
+PHPAPI int (*php_rfc1867_callback)(unsigned int , void *, void ** TSRMLS_DC);
 
 static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data, void **data TSRMLS_DC)
 {
