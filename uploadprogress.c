@@ -304,10 +304,11 @@ static void uploadprogress_file_php_get_info(char * id, zval * return_value)
 {
     char s[1024];
     char * filename;
+    char * template;
     FILE *F;
     TSRMLS_FETCH();
     
-    char * template = INI_STR("uploadprogress.file.filename_template");
+    template = INI_STR("uploadprogress.file.filename_template");
     
     
     if (strcmp(template, "") == 0)  {
