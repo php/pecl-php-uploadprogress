@@ -61,7 +61,7 @@ ZEND_GET_MODULE(uploadprogress)
 #endif
 
 
-PHPAPI int (*php_rfc1867_callback)(unsigned int , void *, void ** TSRMLS_DC);
+PHPAPI extern int (*php_rfc1867_callback)(unsigned int , void *, void ** TSRMLS_DC);
 
 static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data, void **data TSRMLS_DC)
 {
@@ -249,7 +249,7 @@ PHP_MINFO_FUNCTION(uploadprogress)
     php_info_print_table_start() ;
     
     php_info_print_table_header( 2, "uploadprogress support", "enabled" ) ;
-    snprintf( buffer, 512, "0.3.0-beta");
+    snprintf( buffer, 512, "0.3.1-dev");
     
     php_info_print_table_row( 2, "Version", buffer ) ;
     
@@ -278,8 +278,8 @@ PHP_FUNCTION(uploadprogress_get_info)
     }
     
     uploadprogress_file_php_get_info( id, return_value );
+    return;
     
-    RETURN_FALSE;
 }
 
 static char * uploadprogress_mk_filename(char * identifier, char * template)
