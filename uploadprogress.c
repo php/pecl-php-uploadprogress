@@ -143,7 +143,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
         }
         
         if (progress->time_last > crtime) { /* just in case we encounter a fracture in time */
-            progress->time_start = progress->time_last = crtime;
+            progress->time_last = crtime;
         }
         
         dt = crtime - progress->time_last;
