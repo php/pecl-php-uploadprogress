@@ -5,7 +5,7 @@
    +----------------------------------------------------------------------+
 */
 
-/* $ Id: $ */ 
+/* $ Id: $ */
 
 #ifndef PHP_UPLOADPROGRESS_H
 #define PHP_UPLOADPROGRESS_H
@@ -27,7 +27,7 @@ extern "C" {
 #include <ext/standard/info.h>
 
 #ifdef  __cplusplus
-} // extern "C" 
+} // extern "C"
 #endif
 #ifdef  __cplusplus
 extern "C" {
@@ -79,7 +79,7 @@ PHP_MINFO_FUNCTION(uploadprogress);
 PHP_FUNCTION(uploadprogress_get_info);
 PHP_FUNCTION(uploadprogress_get_contents);
 #ifdef  __cplusplus
-} // extern "C" 
+} // extern "C"
 #endif
 
 #endif /* PHP_HAVE_UPLOADPROGRESS */
