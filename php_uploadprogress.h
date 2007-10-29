@@ -45,6 +45,10 @@ extern zend_module_entry uploadprogress_module_entry;
 typedef struct _uploadprogress_data {
     char * identifier;        /* full filename, or just the identifier, depending on method */
     char * identifier_tmp;        /* full filename, or just the identifier, depending on method */
+	char * upload_id;         /* raw string of the UPLOAD_IDENTIFIER */
+	char * data_filename;     /* full filename of temporary data file */
+	char * fieldname;		  /* name of form field for current file being uploaded */
+	char * filename;		  /* filename of the uploaded file */
     time_t time_start;
     time_t time_last;
     unsigned int  speed_average;
@@ -59,6 +63,7 @@ typedef struct _uploadprogress_data {
 static char * uploadprogress_mk_filename(char * identifier, char * template);
 
 static void uploadprogress_file_php_get_info(char *, zval * );
+static void uploadprogress_file_php_get_contents(char *, char *, long, zval *);
 
 PHP_MINIT_FUNCTION(uploadprogress);
 PHP_MSHUTDOWN_FUNCTION(uploadprogress);
@@ -72,6 +77,7 @@ PHP_MINFO_FUNCTION(uploadprogress);
 
 
 PHP_FUNCTION(uploadprogress_get_info);
+PHP_FUNCTION(uploadprogress_get_contents);
 #ifdef  __cplusplus
 } // extern "C" 
 #endif

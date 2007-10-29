@@ -13,7 +13,7 @@
   | license@php.net so we can mail you a copy immediately.               |
   +----------------------------------------------------------------------+
   | Author: Christian Stocker (chregu@bitflux.ch)                        |
-  |  Derived from: Doru Petrescu (pdoru-php-upm@kappa.ro)                |
+  |  Derived from: Doru Petrescu (pdoru-php-upm@kappa.ro)                |
   |                http://pdoru.from.ro/upload-progress-meter/           |
   +----------------------------------------------------------------------+
 
@@ -30,12 +30,14 @@
 /* {{{ uploadprogress_functions[] */
 function_entry uploadprogress_functions[] = {
     PHP_FE(uploadprogress_get_info, NULL)
+	PHP_FE(uploadprogress_get_contents, NULL)
     { NULL, NULL, NULL }
 };
 /* }}} */
 
 PHP_INI_BEGIN()
 PHP_INI_ENTRY("uploadprogress.file.filename_template",   "/tmp/upt_%s.txt", PHP_INI_ALL, NULL)
+PHP_INI_ENTRY("uploadprogress.file.data_filename_template", "/tmp/upt_data_%s", PHP_INI_ALL, NULL)
 PHP_INI_END()
 
 
@@ -75,6 +77,9 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
         multipart_event_start  *e_data;
         e_data = (multipart_event_start*) event_data;
         progress  = emalloc( sizeof(uploadprogress_data) );
+		progress->upload_id = NULL;
+		progress->fieldname = NULL;
+		progress->data_filename = NULL;
         progress->bytes_total    = e_data->content_length;
         progress->identifier = NULL;
         progress->identifier_tmp = NULL;
@@ -95,14 +100,19 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             if (strcmp(template, "") == 0)  {
                 return 0;
             }
-            
-            progress->time_last  = time(NULL);
+
+			char * upload_id;
+			upload_id = emalloc(strlen(*e_data->value));
+			strcpy(upload_id, *e_data->value);
+
+			progress->upload_id = upload_id;
+			progress->time_last  = time(NULL);
             progress->speed_average  = 0;
             progress->speed_last     = 0;
             progress->bytes_uploaded = read_bytes;
             progress->files_uploaded = 0;
             progress->est_sec        = 0;
-            progress->identifier = uploadprogress_mk_filename(*e_data->value, template);
+            progress->identifier = uploadprogress_mk_filename(upload_id, template);
             progress->identifier_tmp = emalloc(strlen( progress->identifier) + 4); 
             sprintf( progress->identifier_tmp, "%s.wr", progress->identifier );
         }
@@ -117,14 +127,37 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             
             e_data = (multipart_event_file_start*) event_data;
             read_bytes = e_data->post_bytes_processed;
+
+            progress->fieldname = e_data->name;
+			progress->filename = *e_data->filename;
+			
+			char * data_template = INI_STR("uploadprogress.file.data_filename_template");
+			if (strcmp(data_template, "") == 0) {
+				return 0;
+			}
+
+			char * data_identifier;
+			data_identifier = emalloc(strlen(progress->upload_id) + strlen(progress->fieldname) + 2);
+			sprintf(data_identifier, "%s-%s", progress->upload_id, progress->fieldname);
+
+			progress->data_filename = uploadprogress_mk_filename(data_identifier, data_template);
             
         } else if (event == MULTIPART_EVENT_FILE_DATA) {
             multipart_event_file_data *e_data;
             
             e_data = (multipart_event_file_data*) event_data;
             read_bytes = e_data->post_bytes_processed;
-            
-            
+
+
+			php_stream *stream;
+			int options = ENFORCE_SAFE_MODE;
+
+			stream = php_stream_open_wrapper(progress->data_filename, "ab", options, NULL);
+			if (stream) {
+				php_stream_write(stream, e_data->data, e_data->length);
+			}
+			php_stream_close(stream);
+
         } else if (event == MULTIPART_EVENT_FILE_END) {
             multipart_event_file_end *e_data;
             
@@ -132,6 +165,10 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             
             read_bytes = e_data->post_bytes_processed;
             progress->files_uploaded++;
+
+			VCWD_UNLINK(progress->data_filename);
+			efree(progress->data_filename);
+
         } else if ( event == MULTIPART_EVENT_END ) {
             VCWD_UNLINK( progress->identifier );
             efree( progress->identifier );
@@ -166,8 +203,9 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             FILE *F;
             F = VCWD_FOPEN(progress->identifier_tmp, "wb");
             if (F) {
-                fprintf(F, "time_start=%d\ntime_last=%d\nspeed_average=%d\nspeed_last=%d\nbytes_uploaded=%d\nbytes_total=%d\nfiles_uploaded=%d\nest_sec=%d\n",
-                progress->time_start, progress->time_last, 
+                fprintf(F, "upload_id=%s\nfieldname=%s\nfilename=%s\ntime_start=%d\ntime_last=%d\nspeed_average=%d\nspeed_last=%d\nbytes_uploaded=%d\nbytes_total=%d\nfiles_uploaded=%d\nest_sec=%d\n",
+                progress->upload_id, progress->fieldname, progress->filename,
+				progress->time_start, progress->time_last, 
                 progress->speed_average, progress->speed_last, 
                 progress->bytes_uploaded, progress->bytes_total, 
                 progress->files_uploaded, 
@@ -186,6 +224,9 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
         if (progress->identifier_tmp) {
             efree( progress->identifier_tmp );
         }
+		if (progress->data_filename) {
+			efree(progress->data_filename);
+		}
         efree( progress );
 
     }
@@ -282,6 +323,26 @@ PHP_FUNCTION(uploadprogress_get_info)
     
 }
 
+PHP_FUNCTION(uploadprogress_get_contents)
+{
+	char *id, *fieldname;
+	int id_len, fieldname_len;
+	long maxlen = PHP_STREAM_COPY_ALL;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss|l", 
+							  &id, &id_len, &fieldname, &fieldname_len, &maxlen) == FAILURE) {
+		return;
+	}
+
+	if (ZEND_NUM_ARGS() == 3 && maxlen < 0) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "length must be greater than or equal to zero");
+		RETURN_FALSE;
+	}
+
+	uploadprogress_file_php_get_contents(id, fieldname, maxlen, return_value);
+	return;
+}
+
 static char * uploadprogress_mk_filename(char * identifier, char * template)
 {
     char * x;
@@ -345,6 +406,53 @@ static void uploadprogress_file_php_get_info(char * id, zval * return_value)
         if (filename) efree(filename);
         return;
     }
+}
+
+static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long maxlen, zval *return_value)
+{
+	char *filename, *template, *contents, *data_identifier;
+	php_stream *stream;
+	int options = ENFORCE_SAFE_MODE;
+	int len, newlen;
+    TSRMLS_FETCH();
+
+	template = INI_STR("uploadprogress.file.data_filename_template");
+
+	if (strcmp(template, "") == 0) {
+		return;
+	} else {
+		data_identifier = emalloc(strlen(id) + strlen(fieldname) + 2);
+		sprintf(data_identifier, "%s-%s", id, fieldname);
+
+		filename = uploadprogress_mk_filename(data_identifier, template);
+		if (!filename) return;
+
+		stream = php_stream_open_wrapper(filename, "rb", options, NULL);
+		if (!stream) {
+			RETURN_FALSE;
+		}
+
+		/* uses mmap if possible */
+		if ((len = php_stream_copy_to_mem(stream, &contents, maxlen, 0)) > 0) {
+			
+			if (PG(magic_quotes_runtime)) {
+				contents = php_addslashes(contents, len, &newlen, 1 TSRMLS_CC);
+				len = newlen;
+			}
+			
+			RETVAL_STRINGL(contents, len, 0);
+		} else if (len == 0) {
+			RETVAL_EMPTY_STRING();
+		} else {
+			RETVAL_FALSE;
+		}
+
+		php_stream_close(stream);
+		if (data_identifier) efree(data_identifier);
+		if (filename) efree(filename);
+
+		return;
+	}
 }
 
 
