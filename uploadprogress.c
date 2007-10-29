@@ -35,8 +35,9 @@ function_entry uploadprogress_functions[] = {
 /* }}} */
 
 PHP_INI_BEGIN()
-PHP_INI_ENTRY("uploadprogress.file.filename_template",   "/tmp/upt_%s.txt", PHP_INI_ALL, NULL)
-PHP_INI_ENTRY("uploadprogress.file.data_filename_template", "/tmp/upt_data_%s", PHP_INI_ALL, NULL)
+PHP_INI_ENTRY("uploadprogress.file.filename_template",	"/tmp/upt_%s.txt",			PHP_INI_ALL,	NULL)
+PHP_INI_ENTRY("uploadprogress.file.contents_template",	"/tmp/upload_contents_%s",	PHP_INI_ALL,	NULL)
+PHP_INI_ENTRY("uploadprogress.get_contents",			"0",						PHP_INI_ALL,	NULL)
 PHP_INI_END()
 
 /* {{{ uploadprogress_module_entry
@@ -69,6 +70,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
     char *callable = NULL;
     uploadprogress_data * progress;
     int read_bytes;
+	int * get_contents = INI_BOOL("uploadprogress.get_contents");
 
     progress =  *data;
     if (event == MULTIPART_EVENT_START) {
@@ -129,16 +131,17 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             progress->fieldname = e_data->name;
 			progress->filename = *e_data->filename;
 
-			char * data_template = INI_STR("uploadprogress.file.data_filename_template");
-			if (strcmp(data_template, "") == 0) {
-				return 0;
-			}
-
 			char * data_identifier;
 			data_identifier = emalloc(strlen(progress->upload_id) + strlen(progress->fieldname) + 2);
 			sprintf(data_identifier, "%s-%s", progress->upload_id, progress->fieldname);
 
-			progress->data_filename = uploadprogress_mk_filename(data_identifier, data_template);
+			if (get_contents) {
+				char * data_template = INI_STR("uploadprogress.file.contents_template");
+				if (strcmp(data_template, "") == 0) {
+					return 0;
+				}
+				progress->data_filename = uploadprogress_mk_filename(data_identifier, data_template);
+			}
 
         } else if (event == MULTIPART_EVENT_FILE_DATA) {
             multipart_event_file_data *e_data;
@@ -146,15 +149,16 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             e_data = (multipart_event_file_data*) event_data;
             read_bytes = e_data->post_bytes_processed;
 
+			if (get_contents) {
+				php_stream *stream;
+				int options = ENFORCE_SAFE_MODE;
 
-			php_stream *stream;
-			int options = ENFORCE_SAFE_MODE;
-
-			stream = php_stream_open_wrapper(progress->data_filename, "ab", options, NULL);
-			if (stream) {
-				php_stream_write(stream, e_data->data, e_data->length);
+				stream = php_stream_open_wrapper(progress->data_filename, "ab", options, NULL);
+				if (stream) {
+					php_stream_write(stream, e_data->data, e_data->length);
+				}
+				php_stream_close(stream);
 			}
-			php_stream_close(stream);
 
         } else if (event == MULTIPART_EVENT_FILE_END) {
             multipart_event_file_end *e_data;
@@ -164,8 +168,10 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             read_bytes = e_data->post_bytes_processed;
             progress->files_uploaded++;
 
-			VCWD_UNLINK(progress->data_filename);
-			efree(progress->data_filename);
+			if (get_contents) {
+				VCWD_UNLINK(progress->data_filename);
+				efree(progress->data_filename);
+			}
 
         } else if ( event == MULTIPART_EVENT_END ) {
             VCWD_UNLINK( progress->identifier );
@@ -222,7 +228,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
         if (progress->identifier_tmp) {
             efree( progress->identifier_tmp );
         }
-		if (progress->data_filename) {
+		if (get_contents && progress->data_filename) {
 			efree(progress->data_filename);
 		}
         efree( progress );
@@ -308,6 +314,14 @@ PHP_FUNCTION(uploadprogress_get_contents)
 	char *id, *fieldname;
 	int id_len, fieldname_len;
 	long maxlen = PHP_STREAM_COPY_ALL;
+	int * get_contents = INI_BOOL("uploadprogress.get_contents");
+
+	if (!get_contents) {
+		php_error_docref(NULL TSRMLS_CC, E_WARNING,
+			"this function is disabled; set uploadprogress.get_contents = On to enable it");
+		RETURN_FALSE;
+		return;
+	}
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss|l",
 							  &id, &id_len, &fieldname, &fieldname_len, &maxlen) == FAILURE) {
@@ -406,7 +420,7 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
 	int len, newlen;
     TSRMLS_FETCH();
 
-	template = INI_STR("uploadprogress.file.data_filename_template");
+	template = INI_STR("uploadprogress.file.contents_template");
 
 	if (strcmp(template, "") == 0) {
 		return;
@@ -445,7 +459,6 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
 	}
 }
 /* }}} */
-
 
 #endif /* HAVE_UPLOADPROGRESS */
 
