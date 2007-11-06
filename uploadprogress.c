@@ -96,12 +96,12 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
 
         if (strcmp(e_data->name, "UPLOAD_IDENTIFIER") == 0)  {
 
+            char * upload_id;
             char * template = INI_STR("uploadprogress.file.filename_template");
             if (strcmp(template, "") == 0)  {
                 return 0;
             }
 
-			char * upload_id;
 			upload_id = emalloc(strlen(*e_data->value));
 			strcpy(upload_id, *e_data->value);
 
@@ -123,6 +123,8 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
         int d,dt,ds;
 
         if (event == MULTIPART_EVENT_FILE_START) {
+            char * data_identifier;
+
             multipart_event_file_start *e_data;
 
             e_data = (multipart_event_file_start*) event_data;
@@ -131,7 +133,6 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             progress->fieldname = e_data->name;
 			progress->filename = *e_data->filename;
 
-			char * data_identifier;
 			data_identifier = emalloc(strlen(progress->upload_id) + strlen(progress->fieldname) + 2);
 			sprintf(data_identifier, "%s-%s", progress->upload_id, progress->fieldname);
 
