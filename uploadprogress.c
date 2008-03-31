@@ -51,7 +51,7 @@ zend_module_entry uploadprogress_module_entry = {
     PHP_RINIT(uploadprogress),         /* Replace with NULL if there is nothing to do at request start */
     PHP_RSHUTDOWN(uploadprogress),   /* Replace with NULL if there is nothing to do at request end   */
     PHP_MINFO(uploadprogress),
-    "0.0.1",
+    PHP_UPLOADPROGRESS_VERSION,
     STANDARD_MODULE_PROPERTIES
 };
 /* }}} */
@@ -277,15 +277,10 @@ PHP_RSHUTDOWN_FUNCTION(uploadprogress)
 /* {{{ PHP_MINFO_FUNCTION */
 PHP_MINFO_FUNCTION(uploadprogress)
 {
-    char buffer[ 512 ] ;
-    php_info_print_table_start() ;
-
-    php_info_print_table_header( 2, "uploadprogress support", "enabled" ) ;
-    snprintf( buffer, 512, "0.3.1-dev");
-
-    php_info_print_table_row( 2, "Version", buffer ) ;
-
-    php_info_print_box_end();
+    php_info_print_table_start();
+    php_info_print_table_header(2, "uploadprogress support", "enabled");
+    php_info_print_table_row(2, "Version",  PHP_UPLOADPROGRESS_VERSION);
+    php_info_print_table_end();
 }
 /* }}} */
 
