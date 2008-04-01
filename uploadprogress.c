@@ -102,7 +102,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
                 return 0;
             }
 
-			upload_id = emalloc(strlen(*e_data->value));
+			upload_id = emalloc(strlen(*e_data->value) + 1);
 			strcpy(upload_id, *e_data->value);
 
 			progress->upload_id = upload_id;
