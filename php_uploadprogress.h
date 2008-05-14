@@ -38,6 +38,7 @@ extern "C" {
 #include <php_ini.h>
 #include <SAPI.h>
 #include <ext/standard/info.h>
+#include <ext/standard/php_string.h>
 
 #ifdef  __cplusplus
 } // extern "C"

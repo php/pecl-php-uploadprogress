@@ -23,7 +23,6 @@
 #include "php_uploadprogress.h"
 #include "rfc1867.h"
 
-
 #if HAVE_UPLOADPROGRESS
 
 /* {{{ uploadprogress_functions[] */
@@ -70,7 +69,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
     char *callable = NULL;
     uploadprogress_data * progress;
     int read_bytes;
-	int * get_contents = INI_BOOL("uploadprogress.get_contents");
+	zend_bool get_contents = INI_BOOL("uploadprogress.get_contents");
 
     progress =  *data;
     if (event == MULTIPART_EVENT_START) {
@@ -238,7 +237,6 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
 }
 /* }}} */
 
-
 /* {{{ PHP_MINIT_FUNCTION */
 PHP_MINIT_FUNCTION(uploadprogress)
 {
@@ -284,7 +282,6 @@ PHP_MINFO_FUNCTION(uploadprogress)
 }
 /* }}} */
 
-
 /* {{{ proto array uploadprogress_get_info(string identifier)
  */
 PHP_FUNCTION(uploadprogress_get_info)
@@ -310,7 +307,7 @@ PHP_FUNCTION(uploadprogress_get_contents)
 	char *id, *fieldname;
 	int id_len, fieldname_len;
 	long maxlen = PHP_STREAM_COPY_ALL;
-	int * get_contents = INI_BOOL("uploadprogress.get_contents");
+	zend_bool get_contents = INI_BOOL("uploadprogress.get_contents");
 
 	if (!get_contents) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING,
@@ -333,7 +330,6 @@ PHP_FUNCTION(uploadprogress_get_contents)
 	return;
 }
 /* }}} */
-
 
 /* {{{ uploadprogress_mk_filename
  */
