@@ -6,7 +6,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <name>uploadprogress</name>
  <channel>pecl.php.net</channel>
  <summary>An extension to track progress of a file upload.</summary>
- <description>. See http://cvs.php.net/viewvc.cgi/pecl/uploadprogress/examples/ for a little example. 
+ <description>See http://cvs.php.net/viewvc.cgi/pecl/uploadprogress/examples/ for a little example. 
  PHP 5.2 is needed.
  
  </description>
