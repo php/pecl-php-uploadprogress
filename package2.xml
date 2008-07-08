@@ -6,7 +6,8 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <name>uploadprogress</name>
  <channel>pecl.php.net</channel>
  <summary>An extension to track progress of a file upload.</summary>
- <description>PHP 5.2 is needed
+ <description>. See http://cvs.php.net/viewvc.cgi/pecl/uploadprogress/examples/ for a little example. 
+ PHP 5.2 is needed.
  
  </description>
  <lead>
@@ -21,7 +22,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>ramsey@php.net</email>
   <active>yes</active>
  </developer>
- <date>2006-12-05</date>
+ <date>2008-07-08</date>
  <time>12:00:07</time>
  <version>
   <release>0.9.0</release>
@@ -34,13 +35,13 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>- Added uploadprogress_get_contents(id, fieldname) to return the contents of
 that file (Ben Ramsey)
-- Added uploadprogress.get_contents INI option to enable above functino (Ben Ramsey)
+- Added uploadprogress.get_contents INI option to enable above function (Ben Ramsey)
+- Added a simple example 
 - Minor Fixes
  </notes>
  <contents>
   <dir name="/">
    <file name="config.m4" role="src" />
-   <file name="EXPERIMENTAL" role="doc" />
    <file name="php_uploadprogress.h" role="src" />
    <file name="uploadprogress.c" role="src" />
    <dir name="examples">
