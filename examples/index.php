@@ -60,22 +60,26 @@ var UP = function() {
            infoUpdated = 0;
            this.requestInfo();
         },
-        stop: function() {
-            var secs = (new Date() - startTime)/1000;
-            var statusText = "Upload succeeded, it took " + secs + " seconds. <br/> ";
-            if (infoUpdated > 0) {
-                writeStatus(statusText + "You had " + infoUpdated + " updates from the progress meter, looks like it's working fine",1);
-            } else {
-                statusText += "BUT there were no progress meter updates<br/> ";
-                if (secs < 3) {
-                  writeStatus(statusText + "Your upload was maybe too short, try with a bigger file or a slower connection",2);
+        stop: function(files) {
+           if (typeof files == 'undefined' || files) {
+                var secs = (new Date() - startTime)/1000;
+                var statusText = "Upload succeeded, it took " + secs + " seconds. <br/> ";
+                if (infoUpdated > 0) {
+                    writeStatus(statusText + "You had " + infoUpdated + " updates from the progress meter, looks like it's working fine",1);
                 } else {
-                  writeStatus(statusText + "Your upload should have taken long enough to have an progress update. Maybe it really does not work...",3);
-                }
+                    statusText += "BUT there were no progress meter updates<br/> ";
+                    if (secs < 3) {
+                      writeStatus(statusText + "Your upload was maybe too short, try with a bigger file or a slower connection",2);
+                    } else {
+                      writeStatus(statusText + "Your upload should have taken long enough to have an progress update. Maybe it really does not work...",3);
+                    }
+                        
                     
-                
-                
-            }
+                    
+                } 
+           } else {
+               writeStatus('PHP did not report any uploaded file, maybe it was too large, try a smaller one (max. <?php echo ini_get('upload_max_filesize');?>)',3);
+           }
            startTime = null;
         },
         requestInfo: function() {
@@ -109,7 +113,8 @@ var UP = function() {
   <form onsubmit="UP.start()" target="ifr2" action="server.php" enctype="multipart/form-data" method="post">
     <input type="hidden" name="UPLOAD_IDENTIFIER" value="<?php echo $id;?>" /> 
     <label>Select File:</label> 
-    <input type="file" name="file" /><br />
+    <input type="file" name="file" />
+    (Max. File Size is <?php echo ini_get('upload_max_filesize');?>)<br/>
     <label>Upload File:</label> 
     <input type="submit" value="Upload File" />
   </form>

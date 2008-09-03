@@ -25,7 +25,13 @@
 <head>
   <meta name="generator" content="HTML Tidy for Linux/x86 (vers 1 September 2005), see www.w3.org" />
 <script type="text/javascript">
-    parent.UP.stop();
+<?php
+if (count($_FILES) > 0) {
+  echo  "parent.UP.stop(true);";
+} else {
+  echo "parent.UP.stop(false);";
+}
+?>
 </script>
 
 <title></title>
