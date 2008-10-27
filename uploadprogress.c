@@ -381,17 +381,30 @@ static void uploadprogress_file_php_get_info(char * id, zval * return_value)
                 char *k, *v, *e;
                 e = strchr(s,'=');
                 if (!e) continue;
+                int index = 0;
 
                 *e = 0; /* break the line into 2 parts */
                 v = e+1;
                 k = s;
 
-                /* trim spaces in front and after the name/value */
+                /* trim spaces in front of the name/value */
                 while (*k && *k <= 32) v++;
                 while (*v && *v <= 32) v++;
-                for (e=k; *e; e++) if (*e <= 32) { *e = 0; break; }
-                for (e=v; *e; e++) if (*e <= 32) { *e = 0; break; }
 
+                /* trim spaces everywhere in the name */
+                for (e=k; *e; e++) if (*e <= 32) { *e = 0; break; }
+
+                /* trim spaces only at the end of the value */
+
+                /* http://pecl.php.net/bugs/bug.php?id=14525 */
+                //for (e=v; *e; e++) if (*e <= 32) { *e = 0; break; }
+
+                if (v != NULL) {
+                    for (index = strlen(v); index > 0; index--) {
+                        if (v[index] > 32) break;
+                        v[index] = 0;
+                    }	
+                }
                 add_assoc_string( return_value, k, v, 1 );
             }
             fclose(F);
