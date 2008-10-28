@@ -379,9 +379,9 @@ static void uploadprogress_file_php_get_info(char * id, zval * return_value)
 
             while ( fgets(s, 1000, F) ) {
                 char *k, *v, *e;
+                int index = 0;
                 e = strchr(s,'=');
                 if (!e) continue;
-                int index = 0;
 
                 *e = 0; /* break the line into 2 parts */
                 v = e+1;
