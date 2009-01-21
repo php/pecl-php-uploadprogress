@@ -27,7 +27,7 @@ $info = uploadprogress_get_info($_GET['ID']);
 
 if ($info !== null) {
 
-    print "parent.UP.updateInfo(".$info['bytes_uploaded']/$info['bytes_total'].",".$info['est_sec'].")";
+    print "parent.UP.updateInfo(".$info['bytes_uploaded'].",".$info['bytes_total'].",".$info['est_sec'].")";
 } else {
     print "parent.UP.updateInfo()";
 }

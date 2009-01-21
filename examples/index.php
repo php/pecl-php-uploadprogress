@@ -18,6 +18,22 @@
 */
 
   $id = md5(microtime() . rand());
+  
+  function return_bytes($val) {
+    $val = trim($val);
+    $last = strtolower($val[strlen($val)-1]);
+    switch($last) {
+        // The 'G' modifier is available since PHP 5.1.0
+        case 'g':
+            $val *= 1024;
+        case 'm':
+            $val *= 1024;
+        case 'k':
+            $val *= 1024;
+    }
+
+    return $val;
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -35,6 +51,7 @@ var UP = function() {
     var ifr = null;
     
     var startTime = null;
+    var upload_max_filesize = <?php echo return_bytes(ini_get('upload_max_filesize'));?>;
     
     var infoUpdated = 0;
     
@@ -78,7 +95,7 @@ var UP = function() {
                     
                 } 
            } else {
-               writeStatus('PHP did not report any uploaded file, maybe it was too large, try a smaller one (max. <?php echo ini_get('upload_max_filesize');?>)',3);
+               writeStatus('PHP did not report any uploaded file, maybe it was too large, try a smaller one (post_max_size: <?php echo ini_get('post_max_size');?>)',3);
            }
            startTime = null;
         },
@@ -86,11 +103,15 @@ var UP = function() {
                 ifr.src="info.php?ID=<?php echo $id;?>&"+new Date();
         },
         
-        updateInfo: function(percent, estimatedSeconds) {
+        updateInfo: function(uploaded, total, estimatedSeconds) {
             if (startTime) {
-                if (percent) {
+                if (uploaded) {
                     infoUpdated++;
-                    writeStatus("Download started since " + (new Date() - startTime)/1000 + " seconds. " + Math.floor(percent * 100) + "% done, " + estimatedSeconds + "  seconds to go"); 
+                    if (total > upload_max_filesize) {
+                        writeStatus("The file is too large and won't be available for PHP after the upload<br/> You file size is " + total + " bytes. Allowed is " + upload_max_filesize + " bytes. That's " + Math.round (total / upload_max_filesize * 100) + "% too large<br/> Download started since " + (new Date() - startTime)/1000 + " seconds. " + Math.floor(uploaded / total * 100) + "% done, " + estimatedSeconds + "  seconds to go",2);
+                    } else {
+                        writeStatus("Download started since " + (new Date() - startTime)/1000 + " seconds. " + Math.floor(uploaded / total * 100) + "% done, " + estimatedSeconds + "  seconds to go");
+                    }
                 } else {
                     writeStatus("Download started since " + (new Date() - startTime)/1000 + " seconds. No progress info yet");
                 }
@@ -114,9 +135,18 @@ var UP = function() {
     <input type="hidden" name="UPLOAD_IDENTIFIER" value="<?php echo $id;?>" /> 
     <label>Select File:</label> 
     <input type="file" name="file" />
-    (Max. File Size is <?php echo ini_get('upload_max_filesize');?>)<br/>
+    <br/>
+    <label>Select File:</label> 
+    <input type="file" name="file2" />
+    
+    <br/>
+    
     <label>Upload File:</label> 
     <input type="submit" value="Upload File" />
+    <br/>
+    ('upload_max_filesize' is <?php echo ini_get('upload_max_filesize');?> per file)<br/>
+    
+    ('post_max_size' is <?php echo ini_get('post_max_size');?> per submit)
   </form>
   <div id="status" style="border: 1px black solid"> Status</div>
   <div>The info during the upload will be displayed here:</div>
