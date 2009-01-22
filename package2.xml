@@ -34,8 +34,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>- Fixed an issue with filenames containing spaces, see http://pecl.php.net/bugs/bug.php?id=14525 for details (by franck).
-- Extended the example to check for too large files.
+ <notes>
  </notes>
  <contents>
   <dir name="/">
