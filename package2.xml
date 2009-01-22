@@ -7,7 +7,8 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <channel>pecl.php.net</channel>
  <summary>An extension to track progress of a file upload.</summary>
  <description>See http://cvs.php.net/viewvc.cgi/pecl/uploadprogress/examples/ for a little example. 
- PHP 5.2 is needed.
+ It is only known to work on Apache with mod_php, other SAPI implementations unfortunately still have issues.
+ At least PHP 5.2 is needed.
  
  </description>
  <lead>
@@ -22,10 +23,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>ramsey@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-07-08</date>
- <time>12:00:07</time>
+ <date>2009-01-22</date>
+ <time>08:10:07</time>
  <version>
-  <release>0.9.2-dev</release>
+  <release>0.9.2</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -33,7 +34,8 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>
+ <notes>- Fixed an issue with filenames containing spaces, see http://pecl.php.net/bugs/bug.php?id=14525 for details (by franck).
+- Extended the example to check for too large files.
  </notes>
  <contents>
   <dir name="/">
