@@ -215,6 +215,12 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
                 progress->files_uploaded,
                 progress->est_sec );
                 fclose(F);
+/* VCWD_RENAME on WIN32 and PHP < 5.3 has a bug, if target does exist */
+#ifdef PHP_WIN32
+#if PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION < 3
+                VCWD_UNLINK(progress->identifier);
+#endif
+#endif
                 VCWD_RENAME(progress->identifier_tmp,progress->identifier);
             }
         }
