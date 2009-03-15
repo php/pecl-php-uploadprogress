@@ -40,6 +40,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <contents>
   <dir name="/">
    <file name="config.m4" role="src" />
+   <file name="config.w32" role="src" />
    <file name="php_uploadprogress.h" role="src" />
    <file name="uploadprogress.c" role="src" />
    <dir name="examples">
