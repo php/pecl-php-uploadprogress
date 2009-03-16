@@ -16,7 +16,13 @@
   | Author: Christian Stocker (chregu@php.net)                           |
   +----------------------------------------------------------------------+
 */
-$info = uploadprogress_get_info($_GET['ID']);
+
+if (function_exists("uploadprogress_get_info")) {
+    
+    $info = uploadprogress_get_info($_GET['ID']);
+} else {
+    $info = false;
+}
 
 ?>
 <html>
@@ -39,8 +45,9 @@ if ($info !== null) {
 <body>
 <pre>
 <?php
-print date("c",time())."\n";
-print $_GET['ID'] ."\n";
+print "Date : " . date("c",time())."\n";
+print "ID   : ". $_GET['ID'] ."\n";
+print 'var_dump($info): '. "\n";
 var_dump($info);
 ?>
 </pre>

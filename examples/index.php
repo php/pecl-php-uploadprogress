@@ -148,7 +148,16 @@ var UP = function() {
     
     ('post_max_size' is <?php echo ini_get('post_max_size');?> per submit)
   </form>
-  <div id="status" style="border: 1px black solid"> Status</div>
+  <div id="status" style="border: 1px black solid;
+  <?php if (function_exists("uploadprogress_get_info")) {  ?>
+ background-color: green;">The uploadprogress extension is installed.
+<?php } else { ?>
+ background-color: red;">The uploadprogress extension is not installed.
+     
+<?php } ?>
+
+
+</div>
   <div>The info during the upload will be displayed here:</div>
   <iframe id="ifr" src="info.php?ID=<?php echo $id;?>" width="500px" height="350px" name="ifr"></iframe>
   
