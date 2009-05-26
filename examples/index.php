@@ -148,16 +148,24 @@ var UP = function() {
     
     ('post_max_size' is <?php echo ini_get('post_max_size');?> per submit)
   </form>
-  <div id="status" style="border: 1px black solid;
-  <?php if (function_exists("uploadprogress_get_info")) {  ?>
- background-color: green;">The uploadprogress extension is installed.
-<?php } else { ?>
- background-color: red;">The uploadprogress extension is not installed.
-     
-<?php } ?>
-
-
-</div>
+    <div id="status" style="border: 1px black solid;<?php
+  $template =  ini_get("uploadprogress.file.filename_template");
+  if (@touch ($template)) {
+        print '">Good. '.$template.' is writable. The realpath is ' . realpath($template);  
+        unlink($template);
+  } else {
+      print 'background-color: red;"';
+      print ">Problem. $template is NOT writable. <br/>Please make sure the directory exists and is writable for the webserver. <br/>
+      Or adjust the ini setting 'uploadprogress.file.filename_template' to a correct path.";
+  }
+  
+  ?>
+  
+  
+  </div>
+  
+  
+  
   <div>The info during the upload will be displayed here:</div>
   <iframe id="ifr" src="info.php?ID=<?php echo $id;?>" width="500px" height="350px" name="ifr"></iframe>
   
