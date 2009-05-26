@@ -25,6 +25,12 @@
 
 #if HAVE_UPLOADPROGRESS
 
+#ifdef P_tmpdir
+#define TMPDIR P_tmpdir
+#else
+#define TMPDIR "/tmp"
+#endif
+
 /* {{{ uploadprogress_functions[] */
 function_entry uploadprogress_functions[] = {
     PHP_FE(uploadprogress_get_info, NULL)
@@ -34,9 +40,9 @@ function_entry uploadprogress_functions[] = {
 /* }}} */
 
 PHP_INI_BEGIN()
-PHP_INI_ENTRY("uploadprogress.file.filename_template",    "/tmp/upt_%s.txt",            PHP_INI_ALL,    NULL)
-PHP_INI_ENTRY("uploadprogress.file.contents_template",    "/tmp/upload_contents_%s",    PHP_INI_ALL,    NULL)
-PHP_INI_ENTRY("uploadprogress.get_contents",            "0",                        PHP_INI_ALL,    NULL)
+PHP_INI_ENTRY("uploadprogress.file.filename_template", TMPDIR"/upt_%s.txt",         PHP_INI_ALL, NULL)
+PHP_INI_ENTRY("uploadprogress.file.contents_template", TMPDIR"/upload_contents_%s", PHP_INI_ALL, NULL)
+PHP_INI_ENTRY("uploadprogress.get_contents",            "0",                        PHP_INI_ALL, NULL)
 PHP_INI_END()
 
 /* {{{ uploadprogress_module_entry
