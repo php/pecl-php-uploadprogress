@@ -23,10 +23,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>ramsey@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-03-15</date>
- <time>18:46:07</time>
+ <date>2009-06-16</date>
+ <time>09:13:07</time>
  <version>
-  <release>1.0.1-dev</release>
+  <release>1.0.1</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -35,7 +35,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- 
+ - Default temporary directory is taken from system settings during compile time (guenter).
+ - Fix a while loop error in removing preceding whitespace (terralith).
+ - Example: Added a check, if the extension is installed at all.
+ - Example: Added checks for a valid uploadprogress.file.filename_template setting.
  </notes>
  <contents>
   <dir name="/">
