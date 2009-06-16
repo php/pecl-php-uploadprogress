@@ -146,22 +146,47 @@ var UP = function() {
     <br/>
     ('upload_max_filesize' is <?php echo ini_get('upload_max_filesize');?> per file)<br/>
     
-    ('post_max_size' is <?php echo ini_get('post_max_size');?> per submit)
-  </form>
-    <div id="status" style="border: 1px black solid;<?php
-  $template =  ini_get("uploadprogress.file.filename_template");
-  if (@touch ($template)) {
-        print '">Good. '.$template.' is writable. The realpath is ' . realpath($template);  
+    ('post_max_size' is <?php echo ini_get('post_max_size');?> per submit)<br/>
+ 
+   <?php
+   
+  
+  $templateini =  ini_get("uploadprogress.file.filename_template");
+  $testid = "thisisjustatest";
+  $template = sprintf($templateini,$testid);
+  $templateerror = false;
+  if ($template && $template != $templateini && @touch ($template) && file_exists($template)) {
+    //    print '('.$templateini.' is writable. The realpath is ' . str_replace($testid,"%s",realpath($template)) .')';  
         unlink($template);
   } else {
-      print 'background-color: red;"';
-      print ">Problem. $template is NOT writable. <br/>Please make sure the directory exists and is writable for the webserver. <br/>
-      Or adjust the ini setting 'uploadprogress.file.filename_template' to a correct path.";
+        $templateerror = true;   
   }
   
   ?>
-  
-  
+   </form>
+   <div id="status" style="border: 1px black solid;<?php
+   if (function_exists("uploadprogress_get_info")) {  
+       if ($templateerror) {
+           print 'background-color: red;"';
+           print ">Problem. ";
+           if ($template == $templateini) {
+               print "uploadprogress.file.filename_template ($templateini) doesn't have an %s in it for making unique temporary files. Please adjust.<br/>";
+           } else {
+               print "$templateini is NOT writable. <br/>Please make sure the directory exists and is writable for the webserver. <br/>
+               Or adjust the ini setting 'uploadprogress.file.filename_template' to a correct path.";
+           }
+       } else {
+           print 'background-color: green;">The uploadprogress extension is installed and initial checks show everything is good';
+       }
+       
+       
+   } else { ?>
+       
+       background-color: red;">The uploadprogress extension is not installed.
+       
+       
+   <?php } ?>
+   
   </div>
   
   
