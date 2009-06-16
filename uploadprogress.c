@@ -400,7 +400,7 @@ static void uploadprogress_file_php_get_info(char * id, zval * return_value)
                 k = s;
 
                 /* trim spaces in front of the name/value */
-                while (*k && *k <= 32) v++;
+                while (*k && *k <= 32) k++;
                 while (*v && *v <= 32) v++;
 
                 /* trim spaces everywhere in the name */
