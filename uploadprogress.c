@@ -415,7 +415,7 @@ static void uploadprogress_file_php_get_info(char * id, zval * return_value)
                     for (index = strlen(v); index > 0; index--) {
                         if (v[index] > 32) break;
                         v[index] = 0;
-                    }	
+                    }
                 }
                 add_assoc_string( return_value, k, v, 1 );
             }
