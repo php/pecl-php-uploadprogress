@@ -32,7 +32,7 @@
 #endif
 
 /* {{{ uploadprogress_functions[] */
-function_entry uploadprogress_functions[] = {
+zend_function_entry uploadprogress_functions[] = {
     PHP_FE(uploadprogress_get_info, NULL)
     PHP_FE(uploadprogress_get_contents, NULL)
     { NULL, NULL, NULL }
