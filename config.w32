@@ -1,0 +1,9 @@
+// $Id$
+// vim:ft=javascript
+
+ARG_ENABLE('uploadprogress' , 'The Upload Progress extension', 'no');
+
+if (PHP_UPLOADPROGRESS != "no") {
+	EXTENSION("uploadprogress", "uploadprogress.c");
+	AC_DEFINE('HAVE_UPLOADPROGRESS', 1, 'The Upload Progress extension');
+}
