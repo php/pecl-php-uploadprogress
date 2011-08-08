@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.11" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>uploadprogress</name>
+ <channel>pecl.php.net</channel>
+ <summary>An extension to track progress of a file upload.</summary>
+ <description>See http://svn.php.net/viewvc/pecl/uploadprogress/trunk/examples/ for a little example. 
+ It is only known to work on Apache with mod_php, other SAPI implementations unfortunately still have issues.
+ At least PHP 5.2 is needed.
+ 
+ </description>
+ <lead>
+  <name>Christian Stocker</name>
+  <user>chregu</user>
+  <email>chregu@php.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Ben Ramsey</name>
+  <user>ramsey</user>
+  <email>ramsey@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2011-08-08</date>
+ <time>11:13:07</time>
+ <version>
+  <release>1.0.3</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+ - Another make it work with PHP 5.4
+ </notes>
+ <contents>
+  <dir name="/">
+   <file name="config.m4" role="src" />
+   <file name="config.w32" role="src" />
+   <file name="php_uploadprogress.h" role="src" />
+   <file name="uploadprogress.c" role="src" />
+   <dir name="examples">
+        <file name="index.php" role="doc" />
+        <file name="server.php" role="doc" />
+        <file name="info.php" role="doc" />
+    </dir>
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <providesextension>uploadprogress</providesextension>
+ <extsrcrelease />
+</package>
