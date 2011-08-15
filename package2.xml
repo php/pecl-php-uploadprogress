@@ -23,10 +23,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>ramsey@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-08-08</date>
+ <date>2011-08-15</date>
  <time>11:13:07</time>
  <version>
-  <release>1.0.3</release>
+  <release>1.0.3.1</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -35,7 +35,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- - Another make it work with PHP 5.4
+ - Wrong version number in .h file
  </notes>
  <contents>
   <dir name="/">
