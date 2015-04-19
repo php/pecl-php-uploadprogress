@@ -71,7 +71,7 @@ PHPAPI extern int (*php_rfc1867_callback)(unsigned int , void *, void ** TSRMLS_
  */
 static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data, void **data TSRMLS_DC)
 {
-    zval handler;
+    //zval handler;
     char *callable = NULL;
     uploadprogress_data * progress;
     int read_bytes;
@@ -157,7 +157,11 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
 
             if (get_contents) {
                 php_stream *stream;
+#if defined(ZEND_ENGINE_3)
+                int options = 0;
+#else
                 int options = ENFORCE_SAFE_MODE;
+#endif
 
                 stream = php_stream_open_wrapper(progress->data_filename, "ab", options, NULL);
                 if (stream) {
@@ -301,7 +305,7 @@ PHP_FUNCTION(uploadprogress_get_info)
 {
     char * id;
     int id_lg;
-    char method;
+    //char method;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &id, &id_lg) == FAILURE) {
         return;
@@ -417,7 +421,11 @@ static void uploadprogress_file_php_get_info(char * id, zval * return_value)
                         v[index] = 0;
                     }
                 }
+#if defined(ZEND_ENGINE_3)
+                add_assoc_string( return_value, k, v );
+#else
                 add_assoc_string( return_value, k, v, 1 );
+#endif
             }
             fclose(F);
         }
@@ -432,10 +440,22 @@ static void uploadprogress_file_php_get_info(char * id, zval * return_value)
  */
 static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long maxlen, zval *return_value)
 {
+#if defined(ZEND_ENGINE_3)
+    char *filename, *template, *data_identifier;
+    zend_string *contents;
+#else
     char *filename, *template, *contents, *data_identifier;
+#endif
     php_stream *stream;
+#if defined(ZEND_ENGINE_3)
+    int options = 0;
+#else
     int options = ENFORCE_SAFE_MODE;
-    int len, newlen;
+#endif
+    int len;
+#if PHP_API_VERSION < 20100412
+    int newlen;
+#endif
     TSRMLS_FETCH();
 
     template = INI_STR("uploadprogress.file.contents_template");
@@ -455,7 +475,13 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
         }
 
         /* uses mmap if possible */
+#if defined(ZEND_ENGINE_3)
+        contents = php_stream_copy_to_mem(stream, maxlen, 0);
+        len = contents->len;
+        if (contents && len > 0) {
+#else
         if ((len = php_stream_copy_to_mem(stream, &contents, maxlen, 0)) > 0) {
+#endif
 
 #if PHP_API_VERSION < 20100412
             if (PG(magic_quotes_runtime)) {
@@ -463,7 +489,11 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
                 len = newlen;
             }
 #endif
+#if defined(ZEND_ENGINE_3)
+            RETVAL_STR(contents);
+#else
             RETVAL_STRINGL(contents, len, 0);
+#endif
         } else if (len == 0) {
             RETVAL_EMPTY_STRING();
         } else {
