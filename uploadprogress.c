@@ -304,7 +304,11 @@ PHP_MINFO_FUNCTION(uploadprogress)
 PHP_FUNCTION(uploadprogress_get_info)
 {
     char * id;
+#if defined(ZEND_ENGINE_3)
+    size_t id_lg;
+#else
     int id_lg;
+#endif
     //char method;
 
     if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &id, &id_lg) == FAILURE) {
