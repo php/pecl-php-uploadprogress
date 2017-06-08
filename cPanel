@@ -8,4 +8,5 @@ make
 make install
 echo "extension=uploadprogress.so" >> /opt/cpanel/ea-php70/root/etc/php.d/uploadprogress.ini
 service httpd restart
+cd ..
 rm -fr uploadprogress
