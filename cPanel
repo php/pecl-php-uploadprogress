@@ -1,4 +1,4 @@
-yum update
+yum update -y
 yum install re2c -y
 git clone https://github.com/Jan-E/uploadprogress.git
 cd uploadprogress
