@@ -2,11 +2,11 @@ yum update -y
 yum install re2c -y
 git clone https://github.com/Jan-E/uploadprogress.git
 cd uploadprogress
-/opt/cpanel/ea-php70/root/usr/bin/phpize
-./configure --with-php-config=/opt/cpanel/ea-php70/root/usr/bin/php-config
+/opt/cpanel/ea-php71/root/usr/bin/phpize
+./configure --with-php-config=/opt/cpanel/ea-php71/root/usr/bin/php-config
 make
 make install
-echo "extension=uploadprogress.so" >> /opt/cpanel/ea-php70/root/etc/php.d/uploadprogress.ini
+echo "extension=uploadprogress.so" >> /opt/cpanel/ea-php71/root/etc/php.d/uploadprogress.ini
 service httpd restart
 cd ..
 rm -fr uploadprogress
