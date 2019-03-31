@@ -8,7 +8,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <summary>An extension to track progress of a file upload.</summary>
  <description>See http://svn.php.net/viewvc/pecl/uploadprogress/trunk/examples/ for a little example.
  It is only known to work on Apache with mod_php, other SAPI implementations unfortunately still have issues.
- At least PHP 5.2 is needed.
+ At least PHP 7.0 is needed.
 
  </description>
  <lead>
@@ -26,7 +26,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <date>2011-08-15</date>
  <time>11:13:07</time>
  <version>
-  <release>1.0.3.1</release>
+  <release>2.0.0</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -54,7 +54,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <dependencies>
   <required>
    <php>
-    <min>5.2.0</min>
+    <min>7.0.0</min>
    </php>
    <pearinstaller>
     <min>1.4.0b1</min>
