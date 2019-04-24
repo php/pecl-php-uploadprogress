@@ -1,7 +1,3 @@
-dnl
-dnl $ Id: $
-dnl
-
 PHP_ARG_ENABLE(uploadprogress, whether to enable uploadprogress functions,
 [  --enable-uploadprogress         Disable uploadprogress support])
 

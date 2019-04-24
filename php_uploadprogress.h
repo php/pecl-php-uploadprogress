@@ -18,8 +18,6 @@
   +----------------------------------------------------------------------+
 */
 
-/* $Id$ */
-
 #ifndef PHP_UPLOADPROGRESS_H
 #define PHP_UPLOADPROGRESS_H
 
