@@ -101,13 +101,3 @@ PHP_FUNCTION(uploadprogress_get_contents);
 #endif /* PHP_HAVE_UPLOADPROGRESS */
 
 #endif /* PHP_UPLOADPROGRESS_H */
-
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * End:
- * vim600: noet sw=4 ts=4 fdm=marker
- * vim<600: noet sw=4 ts=4
- */
