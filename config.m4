@@ -13,4 +13,3 @@ if test "$PHP_UPLOADPROGRESS" != "no"; then
   PHP_NEW_EXTENSION(uploadprogress, uploadprogress.c , $ext_shared)
 
 fi
-

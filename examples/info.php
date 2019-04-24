@@ -1,4 +1,5 @@
 <?php
+
 /*
   +----------------------------------------------------------------------+
   | Uploadprogress extension                                             |
@@ -18,7 +19,7 @@
 */
 
 if (function_exists("uploadprogress_get_info")) {
-    
+
     $info = uploadprogress_get_info($_GET['ID']);
 } else {
     $info = false;

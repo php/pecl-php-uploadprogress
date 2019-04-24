@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /*
   +----------------------------------------------------------------------+
   | Uploadprogress extension                                             |
@@ -18,7 +19,7 @@
 */
 
   $id = md5(microtime() . rand());
-  
+
   function return_bytes($val) {
     $val = trim($val);
     $last = strtolower($val[strlen($val)-1]);
@@ -45,16 +46,16 @@
 
 
 var UP = function() {
-    
+
     /* private variables */
-    
+
     var ifr = null;
-    
+
     var startTime = null;
     var upload_max_filesize = <?php echo return_bytes(ini_get('upload_max_filesize'));?>;
-    
+
     var infoUpdated = 0;
-    
+
     var writeStatus = function(text,color) {
         var statDiv = document.getElementById("status");
         if (color == 1 ) {
@@ -68,8 +69,8 @@ var UP = function() {
         }
         statDiv.innerHTML = text;
     }
-    
-    
+
+
     return {
         start: function() {
            ifr = document.getElementById("ifr");
@@ -90,10 +91,10 @@ var UP = function() {
                     } else {
                       writeStatus(statusText + "Your upload should have taken long enough to have an progress update. Maybe it really does not work...",3);
                     }
-                        
-                    
-                    
-                } 
+
+
+
+                }
            } else {
                writeStatus('PHP did not report any uploaded file, maybe it was too large, try a smaller one (post_max_size: <?php echo ini_get('post_max_size');?>)',3);
            }
@@ -102,7 +103,7 @@ var UP = function() {
         requestInfo: function() {
                 ifr.src="info.php?ID=<?php echo $id;?>&"+new Date();
         },
-        
+
         updateInfo: function(uploaded, total, estimatedSeconds) {
             if (startTime) {
                 if (uploaded) {
@@ -118,8 +119,8 @@ var UP = function() {
                 window.setTimeout("UP.requestInfo()",1000);
             }
         }
-        
-        
+
+
     }
 
 }()
@@ -132,40 +133,40 @@ var UP = function() {
 
 <body>
   <form onsubmit="UP.start()" target="ifr2" action="server.php" enctype="multipart/form-data" method="post">
-    <input type="hidden" name="UPLOAD_IDENTIFIER" value="<?php echo $id;?>" /> 
-    <label>Select File:</label> 
+    <input type="hidden" name="UPLOAD_IDENTIFIER" value="<?php echo $id;?>" />
+    <label>Select File:</label>
     <input type="file" name="file" />
     <br/>
-    <label>Select File:</label> 
+    <label>Select File:</label>
     <input type="file" name="file2" />
-    
+
     <br/>
-    
-    <label>Upload File:</label> 
+
+    <label>Upload File:</label>
     <input type="submit" value="Upload File" />
     <br/>
     ('upload_max_filesize' is <?php echo ini_get('upload_max_filesize');?> per file)<br/>
-    
+
     ('post_max_size' is <?php echo ini_get('post_max_size');?> per submit)<br/>
- 
+
    <?php
-   
-  
+
+
   $templateini =  ini_get("uploadprogress.file.filename_template");
   $testid = "thisisjustatest";
   $template = sprintf($templateini,$testid);
   $templateerror = false;
   if ($template && $template != $templateini && @touch ($template) && file_exists($template)) {
-    //    print '('.$templateini.' is writable. The realpath is ' . str_replace($testid,"%s",realpath($template)) .')';  
+    //    print '('.$templateini.' is writable. The realpath is ' . str_replace($testid,"%s",realpath($template)) .')';
         unlink($template);
   } else {
-        $templateerror = true;   
+        $templateerror = true;
   }
-  
+
   ?>
    </form>
    <div id="status" style="border: 1px black solid;<?php
-   if (function_exists("uploadprogress_get_info")) {  
+   if (function_exists("uploadprogress_get_info")) {
        if ($templateerror) {
            print 'background-color: red;"';
            print ">Problem. ";
@@ -178,24 +179,24 @@ var UP = function() {
        } else {
            print 'background-color: green;">The uploadprogress extension is installed and initial checks show everything is good';
        }
-       
-       
+
+
    } else { ?>
-       
+
        background-color: red;">The uploadprogress extension is not installed.
-       
-       
+
+
    <?php } ?>
-   
+
   </div>
-  
-  
-  
+
+
+
   <div>The info during the upload will be displayed here:</div>
   <iframe id="ifr" src="info.php?ID=<?php echo $id;?>" width="500px" height="350px" name="ifr"></iframe>
-  
+
   <div>
-  
+
   The actual file upload happens here (and displays info, when it's finished):
   </div>
   <iframe name="ifr2" width="500px" height="300px" id="ifr2"></iframe>

@@ -6,10 +6,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <name>uploadprogress</name>
  <channel>pecl.php.net</channel>
  <summary>An extension to track progress of a file upload.</summary>
- <description>See http://svn.php.net/viewvc/pecl/uploadprogress/trunk/examples/ for a little example. 
+ <description>See http://svn.php.net/viewvc/pecl/uploadprogress/trunk/examples/ for a little example.
  It is only known to work on Apache with mod_php, other SAPI implementations unfortunately still have issues.
  At least PHP 5.2 is needed.
- 
+
  </description>
  <lead>
   <name>Christian Stocker</name>
