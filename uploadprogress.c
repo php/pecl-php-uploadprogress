@@ -191,7 +191,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             efree( progress->identifier_tmp );
             efree( progress );
 
-            return 0;
+            return SUCCESS;
 
         }
 
