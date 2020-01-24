@@ -118,6 +118,8 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             progress->identifier = uploadprogress_mk_filename(upload_id, template);
             progress->identifier_tmp = emalloc(strlen( progress->identifier) + 4);
             sprintf( progress->identifier_tmp, "%s.wr", progress->identifier );
+
+            if (upload_id) efree(upload_id);
         }
     }
 
@@ -146,6 +148,8 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
                 }
                 progress->data_filename = uploadprogress_mk_filename(data_identifier, data_template);
             }
+
+            if (data_identifier) efree(data_identifier);
 
         } else if (event == MULTIPART_EVENT_FILE_DATA) {
             multipart_event_file_data *e_data;
