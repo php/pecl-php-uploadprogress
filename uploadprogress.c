@@ -341,7 +341,11 @@ PHP_FUNCTION(uploadprogress_get_info)
 PHP_FUNCTION(uploadprogress_get_contents)
 {
     char *id, *fieldname;
+#if defined(ZEND_ENGINE_3)
+    size_t id_len, fieldname_len;
+#else
     int id_len, fieldname_len;
+#endif
     long maxlen = PHP_STREAM_COPY_ALL;
     zend_bool get_contents = INI_BOOL("uploadprogress.get_contents");
 
