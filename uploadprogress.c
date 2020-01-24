@@ -219,7 +219,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             FILE *F;
             F = VCWD_FOPEN(progress->identifier_tmp, "wb");
             if (F) {
-                fprintf(F, "upload_id=%s\nfieldname=%s\nfilename=%s\ntime_start=%d\ntime_last=%d\nspeed_average=%d\nspeed_last=%d\nbytes_uploaded=%d\nbytes_total=%d\nfiles_uploaded=%d\nest_sec=%d\n",
+                fprintf(F, "upload_id=%s\nfieldname=%s\nfilename=%s\ntime_start=%ld\ntime_last=%ld\nspeed_average=%u\nspeed_last=%u\nbytes_uploaded=%lu\nbytes_total=%lu\nfiles_uploaded=%u\nest_sec=%d\n",
                 progress->upload_id, progress->fieldname, progress->filename,
                 progress->time_start, progress->time_last,
                 progress->speed_average, progress->speed_last,
