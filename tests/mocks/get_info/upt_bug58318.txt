@@ -1,0 +1,11 @@
+upload_id=974489
+fieldname=fichier_video
+filename=C:\Documents and Settings\franck\Bureau\taf\tevasia\1and1\video\Kumar.flv
+time_start=1219105999
+time_last=1219106351
+speed_average=49492
+speed_last=51190
+bytes_uploaded=17421484
+bytes_total=28610177
+files_uploaded=0
+est_sec=226

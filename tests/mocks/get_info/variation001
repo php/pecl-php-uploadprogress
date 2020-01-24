@@ -1,0 +1,11 @@
+upload_id=file003
+fieldname=uploadFile
+filename=/path/to/tmp/filename.txt
+time_start=1579893044
+time_last=30
+speed_average=300
+speed_last=300
+bytes_uploaded=1592342
+bytes_total=3000000
+files_uploaded=1
+est_sec=45
