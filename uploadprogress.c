@@ -102,7 +102,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             char * upload_id;
             char * template = INI_STR("uploadprogress.file.filename_template");
             if (strcmp(template, "") == 0)  {
-                return 0;
+                return FAILURE;
             }
 
             upload_id = emalloc(strlen(*e_data->value) + 1);
@@ -144,7 +144,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             if (get_contents) {
                 char * data_template = INI_STR("uploadprogress.file.contents_template");
                 if (strcmp(data_template, "") == 0) {
-                    return 0;
+                    return FAILURE;
                 }
                 progress->data_filename = uploadprogress_mk_filename(data_identifier, data_template);
             }
