@@ -57,26 +57,37 @@ extern zend_module_entry uploadprogress_module_entry;
 #endif
 
 typedef struct _uploadprogress_data {
-    char * identifier;        /* full filename, or just the identifier, depending on method */
-    char * identifier_tmp;        /* full filename, or just the identifier, depending on method */
-	char * upload_id;         /* raw string of the UPLOAD_IDENTIFIER */
-	char * data_filename;     /* full filename of temporary data file */
-	char * fieldname;		  /* name of form field for current file being uploaded */
-	char * filename;		  /* filename of the uploaded file */
+    /* Full filename, or just the identifier, depending on method */
+    char *identifier;
+
+    /* Full filename, or just the identifier, depending on method */
+    char *identifier_tmp;
+
+    /* Raw string of the UPLOAD_IDENTIFIER */
+    char *upload_id;
+
+    /* Full filename of temporary data file */
+    char *data_filename;
+
+    /* Name of form field for current file being uploaded */
+    char *fieldname;
+
+    /* Filename of the uploaded file */
+    char *filename;
+
     time_t time_start;
     time_t time_last;
-    unsigned int  speed_average;
-    unsigned int  speed_last;
+    unsigned int speed_average;
+    unsigned int speed_last;
     unsigned long bytes_uploaded;
     unsigned long bytes_total;
-    unsigned int  files_uploaded;
-    int  est_sec;
+    unsigned int files_uploaded;
+    int est_sec;
 } uploadprogress_data;
 
+static char *uploadprogress_mk_filename(char *identifier, char *template);
 
-static char * uploadprogress_mk_filename(char * identifier, char * template);
-
-static void uploadprogress_file_php_get_info(char *, zval * );
+static void uploadprogress_file_php_get_info(char *, zval *);
 static void uploadprogress_file_php_get_contents(char *, char *, long, zval *);
 
 PHP_MINIT_FUNCTION(uploadprogress);
@@ -89,9 +100,9 @@ PHP_MINFO_FUNCTION(uploadprogress);
 #include "TSRM.h"
 #endif
 
-
 PHP_FUNCTION(uploadprogress_get_info);
 PHP_FUNCTION(uploadprogress_get_contents);
+
 #ifdef  __cplusplus
 } // extern "C"
 #endif
