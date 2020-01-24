@@ -513,12 +513,26 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
         sprintf(data_identifier, "%s-%s", id, fieldname);
 
         filename = uploadprogress_mk_filename(data_identifier, template);
+
         if (!filename) {
+            if (data_identifier) {
+                efree(data_identifier);
+            }
+
             return;
         }
 
         stream = php_stream_open_wrapper(filename, "rb", options, NULL);
+
         if (!stream) {
+            if (data_identifier) {
+                efree(data_identifier);
+            }
+
+            if (filename) {
+                efree(filename);
+            }
+
             RETURN_FALSE;
         }
 
