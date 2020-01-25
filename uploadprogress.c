@@ -489,16 +489,14 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
 #if defined(ZEND_ENGINE_3)
     char *filename, *template, *data_identifier;
     zend_string *contents;
+    int options = 0;
+    size_t len;
 #else
     char *filename, *template, *contents, *data_identifier;
+    int options = ENFORCE_SAFE_MODE;
+    int len;
 #endif
     php_stream *stream;
-#if defined(ZEND_ENGINE_3)
-    int options = 0;
-#else
-    int options = ENFORCE_SAFE_MODE;
-#endif
-    int len;
 #if PHP_API_VERSION < 20100412
     int newlen;
 #endif
@@ -539,7 +537,11 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
         /* Uses mmap if possible. */
 #if defined(ZEND_ENGINE_3)
         contents = php_stream_copy_to_mem(stream, maxlen, 0);
-        len = contents->len;
+
+        if (contents) {
+            len = contents->len;
+        }
+
         if (contents && len > 0) {
 #else
         if ((len = php_stream_copy_to_mem(stream, &contents, maxlen, 0)) > 0) {
@@ -556,10 +558,8 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
 #else
             RETVAL_STRINGL(contents, len, 0);
 #endif
-        } else if (len == 0) {
-            RETVAL_EMPTY_STRING();
         } else {
-            RETVAL_FALSE;
+            RETVAL_EMPTY_STRING();
         }
 
         php_stream_close(stream);
