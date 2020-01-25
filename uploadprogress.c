@@ -98,24 +98,24 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
         }
 
         if (strcmp(e_data->name, "UPLOAD_IDENTIFIER") == 0)  {
-            char * upload_id;
-            char * template = INI_STR("uploadprogress.file.filename_template");
+            char **upload_id;
+            char *template = INI_STR("uploadprogress.file.filename_template");
 
             if (strcmp(template, "") == 0)  {
                 return FAILURE;
             }
 
             upload_id = emalloc(strlen(*e_data->value) + 1);
-            strcpy(upload_id, *e_data->value);
+            strcpy(*upload_id, *e_data->value);
 
-            progress->upload_id = upload_id;
+            progress->upload_id = *upload_id;
             progress->time_last = time(NULL);
             progress->speed_average = 0;
             progress->speed_last = 0;
             progress->bytes_uploaded = read_bytes;
             progress->files_uploaded = 0;
             progress->est_sec = 0;
-            progress->identifier = uploadprogress_mk_filename(upload_id, template);
+            progress->identifier = uploadprogress_mk_filename(*upload_id, template);
             progress->identifier_tmp = emalloc(strlen( progress->identifier) + 4);
             sprintf(progress->identifier_tmp, "%s.wr", progress->identifier);
 
@@ -130,7 +130,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
         int d, dt, ds;
 
         if (event == MULTIPART_EVENT_FILE_START) {
-            char * data_identifier;
+            char *data_identifier;
             multipart_event_file_start *e_data;
 
             e_data = (multipart_event_file_start*) event_data;
@@ -143,7 +143,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             sprintf(data_identifier, "%s-%s", progress->upload_id, progress->fieldname);
 
             if (get_contents) {
-                char * data_template = INI_STR("uploadprogress.file.contents_template");
+                char *data_template = INI_STR("uploadprogress.file.contents_template");
 
                 if (strcmp(data_template, "") == 0) {
                     return FAILURE;
