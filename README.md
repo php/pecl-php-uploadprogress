@@ -14,6 +14,13 @@ Install uploadprogress with `pecl`:
 pecl install uploadprogress
 ```
 
+If it is not automatically added to your `php.ini` file by the `pecl` command,
+you will need to update `php.ini` by adding the following line:
+
+``` ini
+extension=uploadprogress
+```
+
 ## Documentation
 
 In forms for which you wish to track a file upload using uploadprogress, you
