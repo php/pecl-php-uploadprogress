@@ -11,7 +11,7 @@
     <description>
         A PHP extension to track progress of a file upload, including details on the speed of the upload, estimated time remaining, and access to the contents of the file as it is being uploaded.
 
-        Versions 1.2 and up are compatible with PHP 5, PHP 7, and PHP 8.
+        Versions 1.1.2 and up are compatible with PHP 5, PHP 7, and PHP 8.
 
         See github.com/php/pecl-php-uploadprogress for documentation and examples.
     </description>
