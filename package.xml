@@ -11,7 +11,7 @@
     <description>
         A PHP extension to track progress of a file upload, including details on the speed of the upload, estimated time remaining, and access to the contents of the file as it is being uploaded.
 
-        Versions 1.1 and up are compatible with PHP 5 and PHP 7. The version 2 series is compatible with PHP 7 and PHP 8.
+        Versions 1.2 and up are compatible with PHP 5, PHP 7, and PHP 8.
 
         See github.com/php/pecl-php-uploadprogress for documentation and examples.
     </description>
@@ -28,9 +28,9 @@
         <active>yes</active>
     </lead>
     <date>2020-01-26</date>
-    <time>16:00:00</time>
+    <time>18:30:00</time>
     <version>
-        <release>1.1.1</release>
+        <release>1.1.2</release>
         <api>1.0.0</api>
     </version>
     <stability>
@@ -39,7 +39,7 @@
     </stability>
     <license uri="http://www.php.net/license">PHP License</license>
     <notes>
-        - Mark maximum PHP version as 8.0.0; this will not build on PHP 8
+        - PHP 8 compatibility; this now builds on PHP 5, PHP 7, and PHP 8
     </notes>
     <contents>
         <dir name="/">
@@ -59,7 +59,6 @@
         <required>
             <php>
                 <min>5.2.0</min>
-                <max>8.0.0</max>
             </php>
             <pearinstaller>
                 <min>1.4.0</min>
@@ -69,6 +68,20 @@
     <providesextension>uploadprogress</providesextension>
     <extsrcrelease/>
     <changelog>
+        <release>
+            <date>2020-01-26</date>
+            <version>
+                <release>1.1.1</release>
+                <api>1.0.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <notes>
+                - Mark maximum PHP version as 8.0.0; this will not build on PHP 8
+            </notes>
+        </release>
         <release>
             <date>2020-01-26</date>
             <version>

@@ -4,8 +4,6 @@ A PHP extension to track progress of a file upload, including details on the
 speed of the upload, estimated time remaining, and access to the contents of the
 file as it is being uploaded.
 
-**The current master code will only compile with PHP 5 and PHP 7.**
-
 ## Installation
 
 Install uploadprogress with `pecl`:
