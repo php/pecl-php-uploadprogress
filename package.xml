@@ -1,66 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.11" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
-http://pear.php.net/dtd/tasks-1.0.xsd
-http://pear.php.net/dtd/package-2.0
-http://pear.php.net/dtd/package-2.0.xsd">
- <name>uploadprogress</name>
- <channel>pecl.php.net</channel>
- <summary>An extension to track progress of a file upload.</summary>
- <description>See http://svn.php.net/viewvc/pecl/uploadprogress/trunk/examples/ for a little example.
- It is only known to work on Apache with mod_php, other SAPI implementations unfortunately still have issues.
- At least PHP 5.2 is needed.
-
- </description>
- <lead>
-  <name>Christian Stocker</name>
-  <user>chregu</user>
-  <email>chregu@php.net</email>
-  <active>yes</active>
- </lead>
- <developer>
-  <name>Ben Ramsey</name>
-  <user>ramsey</user>
-  <email>ramsey@php.net</email>
-  <active>yes</active>
- </developer>
- <date>2011-08-15</date>
- <time>11:13:07</time>
- <version>
-  <release>1.0.3.1</release>
-  <api>1.0.0</api>
- </version>
- <stability>
-  <release>stable</release>
-  <api>stable</api>
- </stability>
- <license uri="http://www.php.net/license">PHP License</license>
- <notes>
- - Wrong version number in .h file
- </notes>
- <contents>
-  <dir name="/">
-   <file name="config.m4" role="src" />
-   <file name="config.w32" role="src" />
-   <file name="php_uploadprogress.h" role="src" />
-   <file name="uploadprogress.c" role="src" />
-   <file name="LICENSE" role="doc" />
-   <dir name="examples">
-        <file name="index.php" role="doc" />
-        <file name="server.php" role="doc" />
-        <file name="info.php" role="doc" />
-    </dir>
-  </dir> <!-- / -->
- </contents>
- <dependencies>
-  <required>
-   <php>
-    <min>5.2.0</min>
-   </php>
-   <pearinstaller>
-    <min>1.4.0b1</min>
-   </pearinstaller>
-  </required>
- </dependencies>
- <providesextension>uploadprogress</providesextension>
- <extsrcrelease />
+<package packagerversion="1.4.11"
+         version="2.0"
+         xmlns="http://pear.php.net/dtd/package-2.0"
+         xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+    <name>uploadprogress</name>
+    <channel>pecl.php.net</channel>
+    <summary>An extension to track progress of a file upload.</summary>
+    <description>
+        See https://github.com/php/pecl-php-uploadprogress/tree/master/examples for a little example.
+        It is only known to work on Apache with mod_php, other SAPI implementations unfortunately still have issues.
+        At least PHP 5.2 is needed.
+    </description>
+    <lead>
+        <name>Christian Stocker</name>
+        <user>chregu</user>
+        <email>chregu@php.net</email>
+        <active>yes</active>
+    </lead>
+    <lead>
+        <name>Ben Ramsey</name>
+        <user>ramsey</user>
+        <email>ramsey@php.net</email>
+        <active>yes</active>
+    </lead>
+    <date>2020-01-26</date>
+    <time>00:30:00</time>
+    <version>
+        <release>1.1.0</release>
+        <api>1.0.0</api>
+    </version>
+    <stability>
+        <release>stable</release>
+        <api>stable</api>
+    </stability>
+    <license uri="http://www.php.net/license">PHP License</license>
+    <notes>
+        - PHP 7 compatibility
+    </notes>
+    <contents>
+        <dir name="/">
+            <file name="config.m4" role="src"/>
+            <file name="config.w32" role="src"/>
+            <file name="php_uploadprogress.h" role="src"/>
+            <file name="uploadprogress.c" role="src"/>
+            <file name="LICENSE" role="doc"/>
+            <dir name="examples">
+                <file name="index.php" role="doc"/>
+                <file name="server.php" role="doc"/>
+                <file name="info.php" role="doc"/>
+            </dir>
+        </dir>
+    </contents>
+    <dependencies>
+        <required>
+            <php>
+                <min>5.2.0</min>
+            </php>
+            <pearinstaller>
+                <min>1.4.0</min>
+            </pearinstaller>
+        </required>
+    </dependencies>
+    <providesextension>uploadprogress</providesextension>
+    <extsrcrelease/>
+    <changelog>
+        <release>
+            <date>2011-08-15</date>
+            <version>
+                <release>1.0.3.1</release>
+                <api>1.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <notes>
+                - Wrong version number in .h file
+            </notes>
+        </release>
+        <release>
+            <date>2011-08-08</date>
+            <version>
+                <release>1.0.3</release>
+                <api>1.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <notes>
+                - Another make it work with PHP 5.4
+            </notes>
+        </release>
+        <release>
+            <date>2011-07-26</date>
+            <version>
+                <release>1.0.2</release>
+                <api>1.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <notes>
+                - Make it work with PHP 5.4
+            </notes>
+        </release>
+        <release>
+            <date>2009-06-16</date>
+            <version>
+                <release>1.0.1</release>
+                <api>1.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <notes>
+                - Default temporary directory is taken from system settings during compile time (guenter).
+                - Fix a while loop error in removing preceding whitespace (terralith).
+                - Example: Added a check, if the extension is installed at all.
+                - Example: Added checks for a valid uploadprogress.file.filename_template setting.
+            </notes>
+        </release>
+        <release>
+            <date>2009-03-15</date>
+            <version>
+                <release>1.0.0</release>
+                <api>1.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <notes>
+                - Fixed a renaming issue with temporary files on Windows and PHP 5.2.
+            </notes>
+        </release>
+        <release>
+            <date>2009-01-22</date>
+            <version>
+                <release>0.9.2</release>
+                <api>0.9</api>
+            </version>
+            <stability>
+                <release>beta</release>
+                <api>beta</api>
+            </stability>
+            <notes>
+                - Fixed an issue with filenames containing spaces, see http://pecl.php.net/bugs/bug.php?id=14525 for details (by franck).
+                - Extended the example to check for too large files.
+            </notes>
+        </release>
+        <release>
+            <date>2008-08-25</date>
+            <version>
+                <release>0.9.1</release>
+                <api>0.9</api>
+            </version>
+            <stability>
+                <release>beta</release>
+                <api>beta</api>
+            </stability>
+            <notes>
+                - Fixed version information in phpinfo()
+                - Added php.ini options to phpinfo()
+            </notes>
+        </release>
+        <release>
+            <date>2008-07-08</date>
+            <version>
+                <release>0.9.0</release>
+                <api>0.9</api>
+            </version>
+            <stability>
+                <release>beta</release>
+                <api>beta</api>
+            </stability>
+            <notes>
+                - Added uploadprogress_get_contents(id, fieldname) to return the contents of that file (Ben Ramsey)
+                - Added uploadprogress.get_contents INI option to enable above function (Ben Ramsey)
+                - Added a simple example
+                - Minor Fixes
+            </notes>
+        </release>
+        <release>
+            <date>2006-12-05</date>
+            <version>
+                <release>0.3.0</release>
+                <api>0.3</api>
+            </version>
+            <stability>
+                <release>beta</release>
+                <api>beta</api>
+            </stability>
+            <notes>
+                Initial release
+            </notes>
+        </release>
+    </changelog>
 </package>
