@@ -4,6 +4,7 @@ uploadprogress_get_info - Warns when too few arguments
 --SKIPIF--
 <?php
 if (!extension_loaded('uploadprogress')) exit('skip extension not loaded');
+if (PHP_MAJOR_VERSION >= 8) exit('skip test not valid on PHP 8');
 
 --FILE--
 <?php
