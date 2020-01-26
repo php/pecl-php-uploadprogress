@@ -48,7 +48,7 @@ extern "C" {
 extern zend_module_entry uploadprogress_module_entry;
 #define phpext_uploadprogress_ptr &uploadprogress_module_entry
 
-#define PHP_UPLOADPROGRESS_VERSION "1.1.0"
+#define PHP_UPLOADPROGRESS_VERSION "1.1.1"
 
 #ifdef PHP_WIN32
 #define PHP_UPLOADPROGRESS_API __declspec(dllexport)

@@ -147,12 +147,14 @@ After successfull compilation you have to copy the newly created
 
 You can now load the extension using a php.ini directive
 
-    extension=uploadprogress
+``` ini
+extension=uploadprogress
+```
 
 The extension should now be available, you can test this using the
 `extension_loaded()` function:
 
-```php
+``` php
 if (extension_loaded('uploadprogress')) {
     echo "uploadprogress loaded :)";
 } else  {
