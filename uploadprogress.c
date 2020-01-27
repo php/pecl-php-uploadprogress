@@ -77,7 +77,6 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
 static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data, void **data TSRMLS_DC)
 #endif
 {
-    char *callable = NULL;
     uploadprogress_data *progress;
     int read_bytes;
     zend_bool get_contents = INI_BOOL("uploadprogress.get_contents");
@@ -275,6 +274,8 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
 
         efree(progress);
     }
+
+    return SUCCESS;
 }
 /* }}} */
 
