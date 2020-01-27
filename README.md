@@ -54,23 +54,41 @@ $info = uploadprogress_get_info($identifier);
 $contents = uploadprogress_get_contents($identifier, $fieldName);
 ```
 
-### INI Settings
+### php.ini Settings
 
-* `uploadprogress.file.filename_template` - Set the path and pattern to which
-  the *info* file should be written. This is where we will store the data about
-  the uploaded file, while it is being uploaded. You may set it to a directory,
-  or you may optionally use a filename pattern. It defaults to
-  `sys_get_temp_dir() . '/upt_%s.txt'`. The `%s` is replaced with the value of
-  `UPLOAD_IDENTIFIER`.
-* `uploadprogress.file.contents_template` - Set the path and pattern to which
-  the *contents* of the uploaded file should be written. This allows us to read
-  the contents of the file, while it is still being uploaded. You may set it to
-  a directory, or you may optionally use a filename pattern. It defaults to
-  `sys_get_temp_dir() . '/upload_contents_%s'`. The `%s` is replaced with the
-  value of `UPLOAD_IDENTIFIER` combined with the name of the file upload form
-  field.
-* `uploadprogress.get_contents` - Set to "On" to enable the ability to read a
-  file's contents while it is still uploading. Defaults to "Off."
+* `uploadprogress.file.filename_template`:
+
+  Set the path and pattern to which the *info* file should be written. This is
+  where we will store the data about the uploaded file, while it is being
+  uploaded. You may set it to a directory, or you may optionally use a filename
+  pattern. It defaults to `sys_get_temp_dir() . '/upt_%s.txt'`. The `%s` is
+  replaced with the value of `UPLOAD_IDENTIFIER`.
+
+* `uploadprogress.file.contents_template`:
+
+  Set the path and pattern to which the *contents* of the uploaded file should
+  be written. This allows us to read the contents of the file, while it is still
+  being uploaded. You may set it to a directory, or you may optionally use a
+  filename pattern. It defaults to `sys_get_temp_dir() . '/upload_contents_%s'`.
+  The `%s` is replaced with the value of `UPLOAD_IDENTIFIER` combined with the
+  name of the file upload form field.
+
+* `uploadprogress.get_contents`:
+
+  Set to "On" to enable the ability to read a file's contents while it is still
+  uploading. Defaults to "Off."
+
+**NOTE:** The paths for these INI settings must be *absolute* paths. Relative
+paths will not work.
+
+#### Example php.ini
+
+``` ini
+extension=uploadprogress
+uploadprogress.get_contents=On
+uploadprogress.file.filename_template=/tmp/upt_%s.txt
+uploadprogress.file.contents_template=/tmp/upload_contents_%s
+```
 
 ### uploadprogress_get_info
 
