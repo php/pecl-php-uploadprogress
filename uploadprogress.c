@@ -85,19 +85,11 @@ zend_module_entry uploadprogress_module_entry = {
 ZEND_GET_MODULE(uploadprogress)
 #endif
 
-#if PHP_API_VERSION >= 20200930
 PHPAPI extern int (*php_rfc1867_callback)(unsigned int , void *, void **);
-#else
-PHPAPI extern int (*php_rfc1867_callback)(unsigned int , void *, void ** TSRMLS_DC);
-#endif
 
 /* {{{ uploadprogress_php_rfc1867_file
  */
-#if PHP_API_VERSION >= 20200930
 static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data, void **data)
-#else
-static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data, void **data TSRMLS_DC)
-#endif
 {
     uploadprogress_data *progress;
     int read_bytes;
@@ -339,11 +331,7 @@ PHP_FUNCTION(uploadprogress_get_info)
     char *id;
     size_t id_lg;
 
-#if PHP_API_VERSION >= 20200930
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &id, &id_lg) == FAILURE) {
-#else
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &id, &id_lg) == FAILURE) {
-#endif
         return;
     }
 
@@ -363,34 +351,20 @@ PHP_FUNCTION(uploadprogress_get_contents)
     zend_bool get_contents = INI_BOOL("uploadprogress.get_contents");
 
     if (!get_contents) {
-#if PHP_API_VERSION >= 20200930
         php_error_docref(NULL, E_WARNING,
                          "this function is disabled; set uploadprogress.get_contents = On to enable it");
-#else
-        php_error_docref(NULL TSRMLS_CC, E_WARNING,
-                         "this function is disabled; set uploadprogress.get_contents = On to enable it");
-#endif
         RETURN_FALSE;
 
         return;
     }
 
-#if PHP_API_VERSION >= 20200930
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "ss|l",
                               &id, &id_len, &fieldname, &fieldname_len, &maxlen) == FAILURE) {
-#else
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "ss|l",
-                              &id, &id_len, &fieldname, &fieldname_len, &maxlen) == FAILURE) {
-#endif
         return;
     }
 
     if (ZEND_NUM_ARGS() == 3 && maxlen < 0) {
-#if PHP_API_VERSION >= 20200930
         php_error_docref(NULL, E_WARNING, "length must be greater than or equal to zero");
-#else
-        php_error_docref(NULL TSRMLS_CC, E_WARNING, "length must be greater than or equal to zero");
-#endif
         RETURN_FALSE;
     }
 
@@ -429,9 +403,6 @@ static void uploadprogress_file_php_get_info(char *id, zval *return_value)
     char *filename;
     char *template;
     FILE *F;
-#if PHP_API_VERSION < 20200930
-    TSRMLS_FETCH();
-#endif
 
     template = INI_STR("uploadprogress.file.filename_template");
 
@@ -516,9 +487,6 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
     int options = 0;
     size_t len;
     php_stream *stream;
-#if PHP_API_VERSION < 20200930
-    TSRMLS_FETCH();
-#endif
 
     template = INI_STR("uploadprogress.file.contents_template");
 
