@@ -178,4 +178,4 @@ if (extension_loaded('uploadprogress')) {
 }
 ```
 
-The extension will also add its own block to the output of `phpinfo()`;
+The extension will also add its own block to the output of `phpinfo();`.
