@@ -38,7 +38,7 @@ if (count($_FILES) === 0) {
 }
 
 // There is no reason to process the file upload in this example, so we simply
-// return with a 204 status code to tell the client we received the file. This
+// return with a 200 status code to tell the client we received the file. This
 // is not a recommendation for how your application should respond. It is
 // only for the sake of example.
 header('HTTP/1.1 200 OK');
