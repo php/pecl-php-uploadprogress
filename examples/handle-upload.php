@@ -42,4 +42,6 @@ if (count($_FILES) === 0) {
 // is not a recommendation for how your application should respond. It is
 // only for the sake of example.
 header('HTTP/1.1 200 OK');
-echo json_encode('ok');
+header('Content-Type: application/json');
+
+echo json_encode(['status' => 'ok']);

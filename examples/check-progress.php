@@ -47,4 +47,5 @@ $info = array_merge($info, [
 // the detected MIME type from the initial bytes uploaded (if we can detect it).
 header('HTTP/1.1 200 OK');
 header('Content-Type: application/json');
+
 echo json_encode($info);
