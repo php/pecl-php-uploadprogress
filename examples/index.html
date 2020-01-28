@@ -1,0 +1,245 @@
+<!--
+  +----------------------------------------------------------------------+
+  | Uploadprogress extension                                             |
+  +----------------------------------------------------------------------+
+  | Copyright (c) The PHP Group                                          |
+  +----------------------------------------------------------------------+
+  | This source file is subject to version 3.01 of the PHP license,      |
+  | that is bundled with this package in the file LICENSE, and is        |
+  | available through the world-wide-web at the following url:           |
+  | http://www.php.net/license/3_01.txt.                                 |
+  | If you did not receive a copy of the PHP license and are unable to   |
+  | obtain it through the world-wide-web, please send a note to          |
+  | license@php.net so we can mail you a copy immediately.               |
+  +----------------------------------------------------------------------+
+  | Author: Ben Ramsey (ramsey@php.net)                                  |
+  +----------------------------------------------------------------------+
+-->
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>uploadprogress Example</title>
+    </head>
+    <body>
+        <div class="container my-5">
+            <h3>uploadprogress Example</h3>
+
+            <p>
+                Welcome to the <a href="https://pecl.php.net/package/uploadprogress">uploadprogress
+                extension</a> example!
+            </p>
+
+            <p>
+                Click on the file field below or the "Browse" button to select
+                a file, and then click the "Upload" button. For best results,
+                select a large file — something over 10 MB. As the file uploads,
+                you will see the progress bar fill up. You should also see a
+                guess about the file's type. This uses the
+                <a href="https://www.php.net/fileinfo">fileinfo</a> extension to
+                examine the bytes as they're being uploaded to guess the file
+                type.
+            </p>
+
+            <p>
+                To learn more about what's going on in this example,
+                <a href="https://github.com/php/pecl-php-uploadprogress/tree/master/examples">read
+                the code</a>.
+            </p>
+
+            <form id="uploadprogressForm">
+                <input id="uploadprogressIdentifier" type="hidden" name="UPLOAD_IDENTIFIER" value="">
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="uploadprogressFile" id="uploadprogressFile">
+                        <label class="custom-file-label" for="uploadprogressFile">Choose a file to upload</label>
+                    </div>
+                </div>
+                <button id="uploadprogressSubmit" type="button" class="btn btn-primary">Upload</button>
+            </form>
+
+            <div class="progress mt-5">
+                <div id="fileUploadProgress" class="progress-bar" role="progressbar" style="width: 0;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+
+            <div id="mediaType" class="mt-5 d-none">
+                <i id="mediaIcon" class="" aria-hidden="true" style="font-size: 60px; vertical-align: middle; padding-right: 20px;"></i>
+                It looks like you're uploading <span id="mediaThing"></span>.
+            </div>
+
+            <div id="progressDetails" class="mt-5 d-none"><pre></pre></div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+            let poll;
+            let identifier;
+
+            $(document).ready(function() {
+                bsCustomFileInput.init();
+                generateUploadIdentifier();
+
+                $('#uploadprogressSubmit').click(async function() {
+                    const fileField = document.getElementById('uploadprogressFile')
+                    const uploadForm = document.getElementById('uploadprogressForm');
+                    const formData = new FormData(uploadForm);
+
+                    updateProgressBar(0);
+                    $('#mediaType').addClass('d-none');
+                    $('#mediaIcon').removeClass();
+                    $('#progressDetails').addClass('d-none');
+
+                    // We do this so the user has time to see that the progress
+                    // bar has reset to 0% and is starting to upload.
+                    await sleep(500);
+
+                    identifier = $('#uploadprogressIdentifier').val();
+
+                    if (fileField.files.length > 0) {
+                        $.ajax({
+                            url: 'handle-upload.php',
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            method: 'POST',
+                            success: function () {
+                                clearInterval(poll);
+                                updateProgressBar(100);
+                            }
+                        });
+
+                        poll = setInterval(function () {
+                            pollForProgress(identifier, fileField['name']);
+                        }, 500);
+
+                        uploadForm.reset();
+                        generateUploadIdentifier();
+                    } else {
+                        alert('You should choose a file.')
+                    }
+                });
+            });
+
+            function pollForProgress(id, fieldName) {
+                $.getJSON('check-progress.php?identifier=' + id + '&fieldName=' + fieldName, function(data) {
+                    if (data !== null) {
+                        const percentage = (data.bytes_uploaded / data.bytes_total) * 100;
+                        if (percentage > $('#fileUploadProgress').attr('aria-valuenow')) {
+                            updateProgressBar(percentage);
+                        }
+
+                        if (data.detectedMimeType && $('#mediaType').hasClass('d-none')) {
+                            const fileType = parseFileType(data.detectedMimeType.split('/'));
+
+                            if (fileType) {
+                                $('#mediaThing').text(fileType.thingText);
+                                $('#mediaIcon').addClass('fa ' + fileType.fileIcon);
+                                $('#mediaType').removeClass('d-none');
+                            }
+                        }
+
+                        $('#progressDetails pre').text(JSON.stringify(data, null, 2));
+                        $('#progressDetails').removeClass('d-none');
+                    }
+                });
+            }
+
+            function generateUploadIdentifier() {
+                $('#uploadprogressIdentifier').val(
+                    Math.random().toString(36).replace('0.', '')
+                );
+            }
+
+            function updateProgressBar(percentage) {
+                $('#fileUploadProgress')
+                    .css('width', percentage + '%')
+                    .attr('aria-valuenow', Math.round(percentage))
+                    .text(Math.round(percentage) + '%');
+            }
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            function parseFileType(fileType) {
+                const type = fileType[0];
+                const specifier = fileType[1];
+                let fileIcon = '';
+                let thingText = '';
+
+                switch (type) {
+                    case 'application':
+                        if (specifier === 'x-empty') {
+                            return null;
+                        }
+
+                        fileIcon = 'fa-file-o';
+                        thingText = 'a ' + specifier + ' file';
+                        break;
+
+                    case 'audio':
+                        fileIcon = 'fa-file-audio-o';
+                        thingText = 'an audio file';
+                        break;
+
+                    case 'example':
+                        fileIcon = 'fa-file-o';
+                        thingText = 'an example file for ' + specifier;
+                        break;
+
+                    case 'font':
+                        fileIcon = 'fa-file-o';
+                        thingText = 'a font file';
+                        break;
+
+                    case 'image':
+                        fileIcon = 'fa-file-image-o';
+                        thingText = 'an image file';
+                        break;
+
+                    case 'message':
+                        fileIcon = 'fa-envelope-o';
+                        thingText = 'a message file';
+                        break;
+
+                    case 'model':
+                        fileIcon = 'fa-file-o';
+                        thingText = 'a 3-D model file';
+                        break;
+
+                    case 'multipart':
+                        fileIcon = 'fa-file-o';
+                        thingText = 'a multipart file';
+                        break;
+
+                    case 'text':
+                        fileIcon = 'fa-file-text-o';
+                        thingText = 'a text file';
+                        break;
+
+                    case 'video':
+                        fileIcon = 'fa-file-video-o';
+                        thingText = 'a video file';
+                        break;
+
+                    default:
+                        fileIcon = 'fa-file-o';
+                        thingText = 'a file I don\'t know about';
+                }
+
+                return {
+                    fileIcon: fileIcon,
+                    thingText: thingText
+                };
+            }
+        </script>
+    </body>
+</html>

@@ -50,9 +50,18 @@
             <file name="LICENSE" role="doc"/>
             <file name="README.md" role="doc"/>
             <dir name="examples">
-                <file name="index.php" role="doc"/>
-                <file name="server.php" role="doc"/>
-                <file name="info.php" role="doc"/>
+                <dir name=".docker">
+                    <file name="Dockerfile" role="doc"/>
+                    <file name="uploadprogress.ini" role="doc"/>
+                </dir>
+                <dir name=".tmp">
+                    <file name=".gitkeep" role="doc"/>
+                </dir>
+                <file name="README.md" role="doc"/>
+                <file name="check-progress.php" role="doc"/>
+                <file name="docker-compose.yml" role="doc"/>
+                <file name="handle-upload.php" role="doc"/>
+                <file name="index.html" role="doc"/>
             </dir>
         </dir>
     </contents>
