@@ -63,6 +63,45 @@
                 <file name="handle-upload.php" role="doc"/>
                 <file name="index.html" role="doc"/>
             </dir>
+            <dir name="tests">
+                <dir name="mocks">
+                    <dir name="get_contents">
+                        <file name="upload_contents_basic-formFieldId" role="test"/>
+                        <file name="upload_contents_variation003-formFieldId" role="test"/>
+                        <file name="upload_contents_variation004-aFieldId" role="test"/>
+                        <file name="upload_contents_variation006-field" role="test"/>
+                        <file name="variation005-fieldName" role="test"/>
+                    </dir>
+                    <dir name="get_info">
+                        <file name="upt_basic.txt" role="test"/>
+                        <file name="upt_bug58318.txt" role="test"/>
+                        <file name="upt_variation003.txt" role="test"/>
+                        <file name="upt_variation004.txt" role="test"/>
+                        <file name="variation001" role="test"/>
+                    </dir>
+                </dir>
+                <file name="bug58318.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_basic.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_error001.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_error002.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_error003.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_error004.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_variation001.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_variation002.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_variation003.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_variation004.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_variation005.phpt" role="test"/>
+                <file name="uploadprogress_get_contents_variation006.phpt" role="test"/>
+                <file name="uploadprogress_get_info_basic.phpt" role="test"/>
+                <file name="uploadprogress_get_info_error001.phpt" role="test"/>
+                <file name="uploadprogress_get_info_error002.phpt" role="test"/>
+                <file name="uploadprogress_get_info_error003.phpt" role="test"/>
+                <file name="uploadprogress_get_info_error004.phpt" role="test"/>
+                <file name="uploadprogress_get_info_variation001.phpt" role="test"/>
+                <file name="uploadprogress_get_info_variation002.phpt" role="test"/>
+                <file name="uploadprogress_get_info_variation003.phpt" role="test"/>
+                <file name="uploadprogress_get_info_variation004.phpt" role="test"/>
+            </dir>
         </dir>
     </contents>
     <dependencies>
