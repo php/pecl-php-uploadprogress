@@ -11,7 +11,7 @@
     <description>
         A PHP extension to track progress of a file upload, including details on the speed of the upload, estimated time remaining, and access to the contents of the file as it is being uploaded.
 
-        The uploadprogress extension works on PHP 5, PHP 7, and PHP 8 (since version 1.1.2). It requires the use of the Apache httpd web server with mod_php. Other web servers and PHP-FPM are not yet supported.
+        The uploadprogress extension works on PHP 5, PHP 7, and PHP 8 (since version 1.1.2). It requires the use of the Apache HTTP Server with mod_php. Other web servers and PHP-FPM are not yet supported.
 
         See https://github.com/php/pecl-php-uploadprogress for documentation and examples.
     </description>
