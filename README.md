@@ -7,7 +7,7 @@ file as it is being uploaded.
 ## Requirements
 
 The uploadprogress extension works on PHP 5, PHP 7, and PHP 8. It requires the
-use of the [Apache httpd][] web server with [mod_php][]. Other web servers and
+use of the [Apache HTTP Server][] with [mod_php][]. Other web servers and
 [PHP-FPM][] are not yet supported.
 
 ## Example
@@ -192,7 +192,7 @@ if (extension_loaded('uploadprogress')) {
 The extension will also add its own block to the output of `phpinfo();`.
 
 
-[apache httpd]: https://httpd.apache.org
+[Apache HTTP Server]: https://httpd.apache.org
 [mod_php]: https://www.php.net/manual/en/install.unix.apache2.php
 [php-fpm]: https://www.php.net/fpm
 [examples]: ./examples
