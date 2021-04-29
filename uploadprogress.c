@@ -29,10 +29,22 @@
 #define TMPDIR "/tmp"
 #endif
 
+/* {{{ argument information */
+ZEND_BEGIN_ARG_INFO_EX(arginfo_uploadprogress_get_info, 0, 0, 1)
+    ZEND_ARG_TYPE_INFO(0, identifier, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_uploadprogress_get_contents, 0, 0, 2)
+    ZEND_ARG_TYPE_INFO(0, identifier, IS_STRING, 0)
+    ZEND_ARG_TYPE_INFO(0, fieldname, IS_STRING, 0)
+    ZEND_ARG_TYPE_INFO(0, maxlen, IS_LONG, 1)
+ZEND_END_ARG_INFO()
+/* }}} */
+
 /* {{{ uploadprogress_functions[] */
 zend_function_entry uploadprogress_functions[] = {
-    PHP_FE(uploadprogress_get_info, NULL)
-    PHP_FE(uploadprogress_get_contents, NULL)
+    PHP_FE(uploadprogress_get_info, arginfo_uploadprogress_get_info)
+    PHP_FE(uploadprogress_get_contents, arginfo_uploadprogress_get_contents)
     { NULL, NULL, NULL }
 };
 /* }}} */
