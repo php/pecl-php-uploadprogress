@@ -105,30 +105,23 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
         }
 
         if (strcmp(e_data->name, "UPLOAD_IDENTIFIER") == 0)  {
-            char **upload_id;
             char *template = INI_STR("uploadprogress.file.filename_template");
 
             if (strcmp(template, "") == 0)  {
                 return FAILURE;
             }
 
-            upload_id = emalloc(strlen(*e_data->value) + 1);
-            strcpy(*upload_id, *e_data->value);
-
-            progress->upload_id = *upload_id;
+            progress->upload_id = emalloc(strlen(*e_data->value) + 1);
+            strcpy(progress->upload_id, *e_data->value);
             progress->time_last = time(NULL);
             progress->speed_average = 0;
             progress->speed_last = 0;
             progress->bytes_uploaded = read_bytes;
             progress->files_uploaded = 0;
             progress->est_sec = 0;
-            progress->identifier = uploadprogress_mk_filename(*upload_id, template);
+            progress->identifier = uploadprogress_mk_filename(progress->upload_id, template);
             progress->identifier_tmp = emalloc(strlen( progress->identifier) + 4);
             sprintf(progress->identifier_tmp, "%s.wr", progress->identifier);
-
-            if (upload_id) {
-                efree(upload_id);
-            }
         }
     }
 
@@ -198,6 +191,7 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
             }
         } else if (event == MULTIPART_EVENT_END) {
             VCWD_UNLINK(progress->identifier);
+            efree(progress->upload_id);
             efree(progress->identifier);
             efree(progress->identifier_tmp);
             efree(progress);
@@ -262,6 +256,10 @@ static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data
     if (event == MULTIPART_EVENT_END ) {
         if (progress->identifier) {
             efree(progress->identifier);
+        }
+
+        if (progress->upload_id) {
+            efree(progress->upload_id);
         }
 
         if (progress->identifier_tmp) {
