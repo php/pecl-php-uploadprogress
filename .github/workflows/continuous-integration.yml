@@ -1,0 +1,114 @@
+# GitHub Actions Documentation: https://docs.github.com/en/actions
+
+name: "build"
+
+on: ["pull_request", "push"]
+
+jobs:
+  ubuntu:
+    name: "Test on Ubuntu"
+    runs-on: "ubuntu-latest"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "5.4"
+          - "5.5"
+          - "5.6"
+          - "7.0"
+          - "7.1"
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+          - "8.1"
+
+    steps:
+      - name: "Install dependencies"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y re2c
+
+      - name: "Checkout repository"
+        uses: "actions/checkout@v2"
+
+      - name: "Setup PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          coverage: "none"
+          tools: "phpize, php-config"
+
+      - name: "Generate build files"
+        run: "phpize"
+
+      - name: "Configure build"
+        run: "./configure --enable-uploadprogress"
+
+      - name: "Build"
+        run: "make"
+
+      - name: "Run tests"
+        run: |
+          export TEST_PHP_ARGS="-n -d extension=modules/uploadprogress.so"
+          php run-tests.php -P --show-diff tests
+
+  windows:
+    name: "Test on Windows"
+    runs-on: "windows-latest"
+
+    defaults:
+      run:
+        shell: "cmd"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "7.0"
+          - "7.1"
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+          - "8.1"
+        arch:
+          - "x64"
+          - "x86"
+        ts:
+          - "ts"
+          - "nts"
+
+    steps:
+      - name: "Configure Git"
+        run: "git config --system core.autocrlf false"
+
+      - name: "Checkout repository"
+        uses: "actions/checkout@v2"
+
+      - name: "Setup PHP"
+        id: "setup-php"
+        uses: "cmb69/setup-php-sdk@v0.2"
+        with:
+          version: "${{ matrix.php-version }}"
+          arch: "${{ matrix.arch }}"
+          ts: "${{ matrix.ts }}"
+
+      - name: "Enable developer command prompt"
+        uses: "ilammy/msvc-dev-cmd@v1"
+        with:
+          arch: "${{ matrix.arch }}"
+          toolset: "${{ steps.setup-php.outputs.toolset }}"
+
+      - name: "Generate build files"
+        run: "phpize"
+
+      - name: "Configure build"
+        run: "configure --enable-uploadprogress --with-prefix=${{ steps.setup-php.outputs.prefix }}"
+
+      - name: "Build"
+        run: "nmake"
+
+      - name: "Run tests"
+        run: nmake test TESTS="--show-diff tests"
