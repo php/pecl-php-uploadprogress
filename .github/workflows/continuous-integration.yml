@@ -51,6 +51,7 @@ jobs:
 
       - name: "Run tests"
         run: |
+          export REPORT_EXIT_STATUS=1
           export TEST_PHP_ARGS="-n -d extension=modules/uploadprogress.so"
           php run-tests.php -P --show-diff tests
 
