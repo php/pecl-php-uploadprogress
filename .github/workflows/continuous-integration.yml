@@ -52,7 +52,7 @@ jobs:
       - name: "Run tests"
         run: |
           export REPORT_EXIT_STATUS=1
-          export TEST_PHP_ARGS="-n -d extension=modules/uploadprogress.so"
+          export TEST_PHP_ARGS="-n -g 'FAIL,XFAIL,BORK,WARN,LEAK,SKIP' -d extension=modules/uploadprogress.so"
           php run-tests.php -P --show-diff tests
 
   windows:
@@ -112,4 +112,4 @@ jobs:
         run: "nmake"
 
       - name: "Run tests"
-        run: nmake test TESTS="-n --show-diff tests"
+        run: nmake test TESTS="-n -g 'FAIL,XFAIL,BORK,WARN,LEAK,SKIP' --show-diff tests"
