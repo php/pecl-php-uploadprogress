@@ -12,8 +12,8 @@ $info = uploadprogress_get_info();
 var_dump($info);
 
 --EXPECTF--
-Fatal error: Uncaught ArgumentCountError: uploadprogress_get_info() expects exactly 1 %s, 0 given in %s/uploadprogress_get_info_error004.php:%d
+Fatal error: Uncaught ArgumentCountError: uploadprogress_get_info() expects exactly 1 %s, 0 given in %suploadprogress_get_info_error004.php:%d
 Stack trace:
-#0 %s/uploadprogress_get_info_error004.php(%d): uploadprogress_get_info()
+#0 %suploadprogress_get_info_error004.php(%d): uploadprogress_get_info()
 #1 {main}
-  thrown in %s/uploadprogress_get_info_error004.php on line %d
+  thrown in %suploadprogress_get_info_error004.php on line %d

@@ -111,4 +111,4 @@ jobs:
         run: "nmake"
 
       - name: "Run tests"
-        run: nmake test TESTS="--show-diff tests"
+        run: nmake test TESTS="-n --show-diff tests"

@@ -14,5 +14,5 @@ $contents = uploadprogress_get_contents('fileIdentifier', 'formFieldName');
 var_dump($contents);
 
 --EXPECTF--
-Warning: uploadprogress_get_contents(): this function is disabled; set uploadprogress.get_contents = On to enable it in %s/uploadprogress_get_contents_error001.php on line %d
+Warning: uploadprogress_get_contents(): this function is disabled; set uploadprogress.get_contents = On to enable it in %suploadprogress_get_contents_error001.php on line %d
 bool(false)

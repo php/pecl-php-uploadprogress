@@ -4,6 +4,7 @@ uploadprogress_get_info - When info file cannot be read
 --SKIPIF--
 <?php
 if (!extension_loaded('uploadprogress')) exit('skip extension not loaded');
+if (strncasecmp(PHP_OS, 'WIN', 3) === 0) exit('skip test cannot run on Windows');
 
 --FILE--
 <?php

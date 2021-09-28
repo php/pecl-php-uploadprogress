@@ -15,8 +15,8 @@ $contents = uploadprogress_get_contents('fileIdentifier');
 var_dump($contents);
 
 --EXPECTF--
-Fatal error: Uncaught ArgumentCountError: uploadprogress_get_contents() expects at least 2 %s, 1 given in %s/uploadprogress_get_contents_error004.php:%d
+Fatal error: Uncaught ArgumentCountError: uploadprogress_get_contents() expects at least 2 %s, 1 given in %suploadprogress_get_contents_error004.php:%d
 Stack trace:
-#0 %s/uploadprogress_get_contents_error004.php(%d): uploadprogress_get_contents('fileIdentifier')
+#0 %suploadprogress_get_contents_error004.php(%d): uploadprogress_get_contents('fileIdentifier')
 #1 {main}
-  thrown in %s/uploadprogress_get_contents_error004.php on line %d
+  thrown in %suploadprogress_get_contents_error004.php on line %d

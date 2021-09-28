@@ -12,5 +12,5 @@ $info = uploadprogress_get_info();
 var_dump($info);
 
 --EXPECTF--
-Warning: uploadprogress_get_info() expects exactly 1 parameter, 0 given in %s/uploadprogress_get_info_error001.php on line %d
+Warning: uploadprogress_get_info() expects exactly 1 parameter, 0 given in %suploadprogress_get_info_error001.php on line %d
 NULL

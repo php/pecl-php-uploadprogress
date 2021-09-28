@@ -15,5 +15,5 @@ $contents = uploadprogress_get_contents('fileIdentifier');
 var_dump($contents);
 
 --EXPECTF--
-Warning: uploadprogress_get_contents() expects at least 2 parameters, 1 given in %s/uploadprogress_get_contents_error002.php on line %d
+Warning: uploadprogress_get_contents() expects at least 2 parameters, 1 given in %suploadprogress_get_contents_error002.php on line %d
 NULL
