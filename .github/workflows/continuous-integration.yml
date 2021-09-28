@@ -54,7 +54,7 @@ jobs:
         run: |
           export REPORT_EXIT_STATUS=1
           export TEST_PHP_ARGS="-n -g 'FAIL,XFAIL,BORK,WARN,LEAK,SKIP' -d extension=modules/uploadprogress.so"
-          php run-tests.php -P --show-diff tests
+          php run-tests.php --show-diff tests
 
   windows:
     name: "Test on Windows"
