@@ -35,6 +35,28 @@ if ($identifier === null || $fieldName === null) {
 $info = uploadprogress_get_info($identifier);
 $contents = uploadprogress_get_contents($identifier, $fieldName, 4096);
 
+if (!$info || !$contents) {
+    header('HTTP/1.1 500 Internal Server Error');
+    header('Content-Type: application/json');
+
+    $errors =[];
+
+    if (!$info) {
+        $errors[] = 'Received ' . var_export($info, true) . ' when calling uploadprogress_get_info()';
+    }
+
+    if (!$contents) {
+        $errors[] = 'Received ' . var_export($contents, true) . ' when calling uploadprogress_get_contents()';
+    }
+
+    echo json_encode([
+        'error' => 'An error occurred.',
+        'messages' => $errors,
+    ]);
+
+    exit;
+}
+
 // Get the MIME type of the bytes uploaded, using the Fileinfo extension.
 $finfo = new finfo(FILEINFO_MIME_TYPE);
 $detectedMimeType = $finfo->buffer($contents);
