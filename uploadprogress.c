@@ -30,6 +30,7 @@
 #endif
 
 /* {{{ argument information */
+#if PHP_API_VERSION >= 20200930
 ZEND_BEGIN_ARG_INFO_EX(arginfo_uploadprogress_get_info, 0, 0, 1)
     ZEND_ARG_TYPE_INFO(0, identifier, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -39,14 +40,23 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_uploadprogress_get_contents, 0, 0, 2)
     ZEND_ARG_TYPE_INFO(0, fieldname, IS_STRING, 0)
     ZEND_ARG_TYPE_INFO(0, maxlen, IS_LONG, 1)
 ZEND_END_ARG_INFO()
+#endif
 /* }}} */
 
 /* {{{ uploadprogress_functions[] */
+#if PHP_API_VERSION >= 20200930
 zend_function_entry uploadprogress_functions[] = {
     PHP_FE(uploadprogress_get_info, arginfo_uploadprogress_get_info)
     PHP_FE(uploadprogress_get_contents, arginfo_uploadprogress_get_contents)
     { NULL, NULL, NULL }
 };
+#else
+zend_function_entry uploadprogress_functions[] = {
+    PHP_FE(uploadprogress_get_info, NULL)
+    PHP_FE(uploadprogress_get_contents, NULL)
+    { NULL, NULL, NULL }
+};
+#endif
 /* }}} */
 
 PHP_INI_BEGIN()
@@ -75,7 +85,7 @@ zend_module_entry uploadprogress_module_entry = {
 ZEND_GET_MODULE(uploadprogress)
 #endif
 
-#if PHP_API_VERSION >= 20190128
+#if PHP_API_VERSION >= 20200930
 PHPAPI extern int (*php_rfc1867_callback)(unsigned int , void *, void **);
 #else
 PHPAPI extern int (*php_rfc1867_callback)(unsigned int , void *, void ** TSRMLS_DC);
@@ -83,7 +93,7 @@ PHPAPI extern int (*php_rfc1867_callback)(unsigned int , void *, void ** TSRMLS_
 
 /* {{{ uploadprogress_php_rfc1867_file
  */
-#if PHP_API_VERSION >= 20190128
+#if PHP_API_VERSION >= 20200930
 static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data, void **data)
 #else
 static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data, void **data TSRMLS_DC)
@@ -345,7 +355,7 @@ PHP_FUNCTION(uploadprogress_get_info)
     int id_lg;
 #endif
 
-#if PHP_API_VERSION >= 20190128
+#if PHP_API_VERSION >= 20200930
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &id, &id_lg) == FAILURE) {
 #else
     if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s", &id, &id_lg) == FAILURE) {
@@ -373,7 +383,7 @@ PHP_FUNCTION(uploadprogress_get_contents)
     zend_bool get_contents = INI_BOOL("uploadprogress.get_contents");
 
     if (!get_contents) {
-#if PHP_API_VERSION >= 20190128
+#if PHP_API_VERSION >= 20200930
         php_error_docref(NULL, E_WARNING,
                          "this function is disabled; set uploadprogress.get_contents = On to enable it");
 #else
@@ -385,7 +395,7 @@ PHP_FUNCTION(uploadprogress_get_contents)
         return;
     }
 
-#if PHP_API_VERSION >= 20190128
+#if PHP_API_VERSION >= 20200930
     if (zend_parse_parameters(ZEND_NUM_ARGS(), "ss|l",
                               &id, &id_len, &fieldname, &fieldname_len, &maxlen) == FAILURE) {
 #else
@@ -396,7 +406,7 @@ PHP_FUNCTION(uploadprogress_get_contents)
     }
 
     if (ZEND_NUM_ARGS() == 3 && maxlen < 0) {
-#if PHP_API_VERSION >= 20190128
+#if PHP_API_VERSION >= 20200930
         php_error_docref(NULL, E_WARNING, "length must be greater than or equal to zero");
 #else
         php_error_docref(NULL TSRMLS_CC, E_WARNING, "length must be greater than or equal to zero");
@@ -439,7 +449,7 @@ static void uploadprogress_file_php_get_info(char *id, zval *return_value)
     char *filename;
     char *template;
     FILE *F;
-#if PHP_API_VERSION < 20190128
+#if PHP_API_VERSION < 20200930
     TSRMLS_FETCH();
 #endif
 
@@ -539,7 +549,7 @@ static void uploadprogress_file_php_get_contents(char *id, char *fieldname, long
 #if PHP_API_VERSION < 20100412
     int newlen;
 #endif
-#if PHP_API_VERSION < 20190128
+#if PHP_API_VERSION < 20200930
     TSRMLS_FETCH();
 #endif
 
