@@ -1,5 +1,5 @@
 ARG php_version
-FROM php:${php_version}-apache
+FROM php:${php_version}-fpm
 
 ARG uploadprogress_version
 

@@ -2,13 +2,12 @@
 
 To run this example, you will need:
 
-* [Apache httpd][] with [mod_php][] (other web servers and [PHP-FPM][] are not
-  yet supported)
+* [Apache HTTP Server][] using [mod_php][], or [PHP-FPM][] used with
+  [Apache HTTP Server][], [nginx][], or [Caddy][].
 * PHP >= 7.2 with the [fileinfo][] extension
 
 The easiest way to run this example is by using [Docker][] with the provided
-`docker-compose.yml` file (which includes all the requirements), though Docker
-is not required.
+`docker-compose.yml` file (which includes all the requirements).
 
 ## Using docker-compose
 
@@ -30,7 +29,9 @@ enter `docker-compose rm` to remove the container that was created.
 
 
 [docker]: https://www.docker.com
-[apache httpd]: https://httpd.apache.org
+[Apache HTTP Server]: https://httpd.apache.org
 [mod_php]: https://www.php.net/manual/en/install.unix.apache2.php
 [php-fpm]: https://www.php.net/fpm
 [fileinfo]: https://www.php.net/fileinfo
+[nginx]: https://nginx.org
+[caddy]: https://caddyserver.com
