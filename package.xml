@@ -28,9 +28,9 @@
         <active>yes</active>
     </lead>
     <date>2021-09-29</date>
-    <time>02:10:00</time>
+    <time>14:00:00</time>
     <version>
-        <release>2.0.0</release>
+        <release>2.0.1</release>
         <api>1.0.0</api>
     </version>
     <stability>
@@ -39,7 +39,7 @@
     </stability>
     <license uri="http://www.php.net/license">PHP License</license>
     <notes>
-        - Drop support for PHP &lt; 7.2
+        - Fix parameter and return type declarations for PHP 7 and PHP 8
     </notes>
     <contents>
         <dir name="/">
@@ -120,6 +120,20 @@
     <providesextension>uploadprogress</providesextension>
     <extsrcrelease/>
     <changelog>
+        <release>
+            <date>2021-09-29</date>
+            <version>
+                <release>2.0.0</release>
+                <api>1.0.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <notes>
+                - Drop support for PHP &lt; 7.2
+            </notes>
+        </release>
         <release>
             <date>2021-09-28</date>
             <version>
