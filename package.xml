@@ -11,7 +11,7 @@
     <description>
         A PHP extension to track progress of a file upload, including details on the speed of the upload, estimated time remaining, and access to the contents of the file as it is being uploaded.
 
-        The uploadprogress extension works on PHP 5, PHP 7, and PHP 8 (since version 1.1.2). It requires the use of the Apache HTTP Server with mod_php. Other web servers and PHP-FPM are not yet supported.
+        The uploadprogress extension works on PHP 7.2+ and PHP 8. It requires the use of the Apache HTTP Server with mod_php. Other web servers and PHP-FPM are not yet supported.
 
         See https://github.com/php/pecl-php-uploadprogress for documentation and examples.
     </description>
@@ -27,10 +27,10 @@
         <email>ramsey@php.net</email>
         <active>yes</active>
     </lead>
-    <date>2021-09-28</date>
-    <time>23:20:00</time>
+    <date>2021-09-29</date>
+    <time>02:10:00</time>
     <version>
-        <release>1.1.4</release>
+        <release>2.0.0</release>
         <api>1.0.0</api>
     </version>
     <stability>
@@ -39,8 +39,7 @@
     </stability>
     <license uri="http://www.php.net/license">PHP License</license>
     <notes>
-        - Fix #79584: Segmentation fault in uploadprogress 1.1.0 and up
-        - Add arginfo for functions to support PHP 8 and up
+        - Drop support for PHP &lt; 7.2
     </notes>
     <contents>
         <dir name="/">
@@ -108,7 +107,7 @@
     <dependencies>
         <required>
             <php>
-                <min>5.2.0</min>
+                <min>7.2.0</min>
             </php>
             <pearinstaller>
                 <min>1.4.0</min>
@@ -118,6 +117,21 @@
     <providesextension>uploadprogress</providesextension>
     <extsrcrelease/>
     <changelog>
+        <release>
+            <date>2021-09-28</date>
+            <version>
+                <release>1.1.4</release>
+                <api>1.0.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <notes>
+                - Fix #79584: Segmentation fault in uploadprogress 1.1.0 and up
+                - Add arginfo for functions to support PHP 8 and up
+            </notes>
+        </release>
         <release>
             <date>2020-01-28</date>
             <version>
