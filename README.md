@@ -150,15 +150,15 @@ System](https://bugs.php.net/report.php?package=uploadprogress).
 
 To compile this extension, execute the following steps:
 
-1. $ ./phpize
-2. $ ./configure [--enable-uploadprogress]
-3. $ make
-4. $ make test
-5. $ [sudo] make install
+```shell
+phpize
+./configure --enable-uploadprogress
+make
+```
 
 ### Building on Windows
 
-The extension provides the VisualStudio V6 project file
+The extension provides the VisualStudio V6 project file:
 
     uploadprogress.dsp
 
@@ -172,13 +172,19 @@ After successfull compilation you have to copy the newly created
 
 ### Testing
 
-You can now load the extension using a php.ini directive
+You may now run the tests with the following (on Windows, use `nmake`):
+
+```shell
+make test TESTS="-n --show-diff tests"
+```
+
+For application testing, you can now load the extension using a php.ini directive
 
 ``` ini
 extension=uploadprogress
 ```
 
-The extension should now be available, you can test this using the
+The extension should now be available, which you can test using the
 `extension_loaded()` function:
 
 ``` php
