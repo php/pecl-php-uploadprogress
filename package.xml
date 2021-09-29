@@ -47,6 +47,9 @@
             <file name="config.w32" role="src"/>
             <file name="php_uploadprogress.h" role="src"/>
             <file name="uploadprogress.c" role="src"/>
+            <file name="uploadprogress.stub.php" role="src"/>
+            <file name="uploadprogress_arginfo.h" role="src"/>
+            <file name="uploadprogress_legacy_arginfo.h" role="src"/>
             <file name="LICENSE" role="doc"/>
             <file name="README.md" role="doc"/>
             <dir name="examples">
