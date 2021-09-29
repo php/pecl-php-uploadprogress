@@ -6,7 +6,7 @@ file as it is being uploaded.
 
 ## Requirements
 
-The uploadprogress extension works on PHP 5, PHP 7, and PHP 8. It requires the
+The uploadprogress extension works on PHP 7.2+ and PHP 8. It requires the
 use of the [Apache HTTP Server][] with [mod_php][]. Other web servers and
 [PHP-FPM][] are not yet supported.
 

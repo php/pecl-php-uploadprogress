@@ -4,7 +4,7 @@ To run this example, you will need:
 
 * [Apache httpd][] with [mod_php][] (other web servers and [PHP-FPM][] are not
   yet supported)
-* PHP 5.4+ with the [fileinfo][] extension
+* PHP >= 7.2 with the [fileinfo][] extension
 
 The easiest way to run this example is by using [Docker][] with the provided
 `docker-compose.yml` file (which includes all the requirements), though Docker
