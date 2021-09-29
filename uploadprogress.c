@@ -30,34 +30,11 @@
 #endif
 
 /* {{{ argument information */
-#if PHP_API_VERSION >= 20200930
-ZEND_BEGIN_ARG_INFO_EX(arginfo_uploadprogress_get_info, 0, 0, 1)
-    ZEND_ARG_TYPE_INFO(0, identifier, IS_STRING, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_uploadprogress_get_contents, 0, 0, 2)
-    ZEND_ARG_TYPE_INFO(0, identifier, IS_STRING, 0)
-    ZEND_ARG_TYPE_INFO(0, fieldname, IS_STRING, 0)
-    ZEND_ARG_TYPE_INFO(0, maxlen, IS_LONG, 1)
-ZEND_END_ARG_INFO()
-#endif
-/* }}} */
-
-/* {{{ uploadprogress_functions[] */
-#if PHP_API_VERSION >= 20200930
-zend_function_entry uploadprogress_functions[] = {
-    PHP_FE(uploadprogress_get_info, arginfo_uploadprogress_get_info)
-    PHP_FE(uploadprogress_get_contents, arginfo_uploadprogress_get_contents)
-    { NULL, NULL, NULL }
-};
+#if PHP_VERSION_ID < 80000
+#include "uploadprogress_legacy_arginfo.h"
 #else
-zend_function_entry uploadprogress_functions[] = {
-    PHP_FE(uploadprogress_get_info, NULL)
-    PHP_FE(uploadprogress_get_contents, NULL)
-    { NULL, NULL, NULL }
-};
+#include "uploadprogress_arginfo.h"
 #endif
-/* }}} */
 
 PHP_INI_BEGIN()
 PHP_INI_ENTRY("uploadprogress.file.filename_template", TMPDIR"/upt_%s.txt",         PHP_INI_ALL, NULL)
@@ -70,7 +47,7 @@ PHP_INI_END()
 zend_module_entry uploadprogress_module_entry = {
     STANDARD_MODULE_HEADER,
     "uploadprogress",
-    uploadprogress_functions,
+    ext_functions,
     PHP_MINIT(uploadprogress),
     PHP_MSHUTDOWN(uploadprogress),
     PHP_RINIT(uploadprogress),
