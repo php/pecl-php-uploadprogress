@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 5f78bc7f8b12cfd54c838e6e6e85b9f28b67b386 */
+ * Stub hash: 2d041ae6d6a3d972168fe0cc71978048f694a39c */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_uploadprogress_get_info, 0, 0, 1)
 	ZEND_ARG_INFO(0, identifier)
