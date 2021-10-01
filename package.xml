@@ -27,10 +27,10 @@
         <email>ramsey@php.net</email>
         <active>yes</active>
     </lead>
-    <date>2021-09-29</date>
-    <time>14:00:00</time>
+    <date>2021-10-01</date>
+    <time>01:00:00</time>
     <version>
-        <release>2.0.1</release>
+        <release>2.0.2</release>
         <api>1.0.0</api>
     </version>
     <stability>
@@ -39,7 +39,7 @@
     </stability>
     <license uri="http://www.php.net/license">PHP License</license>
     <notes>
-        - Fix parameter and return type declarations for PHP 7 and PHP 8
+        - Update release package with latest examples and documentation
     </notes>
     <contents>
         <dir name="/">
@@ -121,6 +121,20 @@
     <providesextension>uploadprogress</providesextension>
     <extsrcrelease/>
     <changelog>
+        <release>
+            <date>2021-09-29</date>
+            <version>
+                <release>2.0.1</release>
+                <api>1.0.0</api>
+            </version>
+            <stability>
+                <release>stable</release>
+                <api>stable</api>
+            </stability>
+            <notes>
+                - Fix parameter and return type declarations for PHP 7 and PHP 8
+            </notes>
+        </release>
         <release>
             <date>2021-09-29</date>
             <version>
