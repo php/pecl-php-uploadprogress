@@ -69,7 +69,7 @@ PHPAPI extern int (*php_rfc1867_callback)(unsigned int , void *, void **);
 static int uploadprogress_php_rfc1867_file(unsigned int event, void  *event_data, void **data)
 {
     uploadprogress_data *progress;
-    int read_bytes;
+    size_t read_bytes;
     zend_bool get_contents = INI_BOOL("uploadprogress.get_contents");
 
     progress = *data;
